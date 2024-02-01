@@ -1,12 +1,13 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import React from "react";
+import axios from 'axios';
 
-/*export const DataWorker = () => {
+export const DataWorker = () => {
 
     const [workers, setWorkers] = useState( [] )
 
-    const endpoint = 'http://127.0.0.1:8000/api/workers/'
+    const endpoint = 'http://127.0.0.1:8000/workers/api/v1/workers/'
 
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
@@ -45,11 +46,9 @@ import React from "react";
             options={options}
         />
     )
-    
-    
-}*/
+}
 
-export class DataWorker extends React.Component {
+/* export class DataWorker extends React.Component {
     render() {
         const columns = ["Id", "Nombre completo", "Documento", "Acciones"]
         const data = [
@@ -73,4 +72,4 @@ export class DataWorker extends React.Component {
         )
     }
     
-}
+} */
