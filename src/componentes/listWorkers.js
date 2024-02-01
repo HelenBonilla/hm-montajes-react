@@ -47,29 +47,3 @@ export const DataWorker = () => {
         />
     )
 }
-
-/* export class DataWorker extends React.Component {
-    render() {
-        const columns = ["Id", "Nombre completo", "Documento", "Acciones"]
-        const data = [
-            ["Joe James", "Test Corp", "Yonkers", "NY"],
-            ["John Walsh", "Test Corp", "Hartford", "CT"],
-            ["Bob Herm", "Test Corp", "Tampa", "FL"],
-            ["James Houston", "Test Corp", "Dallas", "TX"],
-            ["Joe James", "Test Corp", "Yonkers", "NY"],
-            ["Bob Herm", "Test Corp", "Tampa", "FL"],
-            ["James Houston", "Test Corp", "Dallas", "TX"]
-        ]
-        const options = { filterType: 'checkbox',}
-
-        return(
-                <MUIDataTable 
-                    title={"Lista de empleados"}
-                    data={data}
-                    columns={columns}
-                    options={options}
-                />
-        )
-    }
-    
-} */
