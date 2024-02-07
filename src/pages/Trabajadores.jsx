@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { DataWorker } from "../componentes/listWorkers";
+
 export function Trabajadores() {
   return (
     <Container>
-      <h1>Trabajadores</h1>
+      <DataWorker/>
     </Container>
   );
 }
