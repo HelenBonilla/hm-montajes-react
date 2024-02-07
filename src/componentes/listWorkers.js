@@ -15,8 +15,12 @@ const getMuiTheme = () =>
             root: {
             backgroundColor: '#81d4fa',
           }}
-        }
-        
+        },
+        MUIDataTable: {
+            responsiveScroll: {
+                maxHeight: '100%',
+            },
+        },
       }
 });
 
@@ -78,7 +82,7 @@ export const DataWorker = () => {
         }
     ]
         
-    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:440, elevation:10, 
+    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:'75vh', elevation:10, 
         textLabels: {    
             toolbar: {
                 search: "Buscar Trabajador",
@@ -106,7 +110,7 @@ export const DataWorker = () => {
     
         return(
             <ThemeProvider theme={getMuiTheme()}> 
-                <Container maxWidth="xl" >
+                <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
                         <MUIDataTable 
                             title="Lista de trabajadores"
                             data={workers}
