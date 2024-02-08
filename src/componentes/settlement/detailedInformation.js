@@ -1,6 +1,7 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import { Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 
@@ -19,19 +20,21 @@ const getMuiTheme = () =>
 
 export const DataDetailedSte = () => {
 
+    const { id } = useParams();
     const [settlement, setSettlement] = useState( [] )
-    const endpoint = 'http://localhost:8000/settlement/api/v1/settlement-details/'
+    const endpoint = `http://localhost:8000/settlement/api/v1/settlement-details/`
 
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
             console.log(data)
+            console.log(id)
             setSettlement(data)
         })
     }
 
     useEffect( ()=>{
-        getData()
+        getData();
     }, [])
         
     const columns = [
