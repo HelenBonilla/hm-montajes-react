@@ -7,6 +7,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { IconButton } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 
 const getMuiTheme = () =>
@@ -30,7 +31,6 @@ export const DataSettlement = () => {
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
-            console.log(data)
             setSettlement(data)
         })
     }
@@ -78,12 +78,12 @@ export const DataSettlement = () => {
             name:"action",
             label:"Acciones",
             options: {
-                customBodyRender: () => {
+                customBodyRenderLite: (dataIndex) => {
                   return (
                     <div>
                          <Tooltip title="Ver liquidación">
                             <IconButton aria-label="view">
-                                <VisibilityIcon />
+                                <Link to={`/Liquidaciones/${settlement[dataIndex].id}`}><VisibilityIcon /></Link>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Descargar">
