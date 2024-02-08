@@ -74,7 +74,7 @@ export const DataWorker = () => {
         }
     ]
         
-    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, print:false, tableBodyHeight:440, elevation:10, 
+    const options = { filterType: 'checkbox', print:false, responsive:true, filter: false, selectableRows:false,tableBodyHeight:440, elevation:10, 
         textLabels: {    
             toolbar: {
                 search: "Buscar Trabajador",
