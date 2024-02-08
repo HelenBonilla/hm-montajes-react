@@ -6,8 +6,6 @@ import { Liquidaciones } from "../pages/Liquidaciones";
 import { Nomina } from "../pages/Nomina";
 export function MyRoutes() {
   return (
-   
-     
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Fichajes" element={<Fichajes />} />
@@ -15,6 +13,5 @@ export function MyRoutes() {
         <Route path="/Liquidaciones" element={<Liquidaciones />} />
         <Route path="/Nomina" element={<Nomina />} />
       </Routes>
-    
   );
 }

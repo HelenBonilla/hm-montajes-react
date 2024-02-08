@@ -13,7 +13,7 @@ const getMuiTheme = () =>
         MUIDataTableHeadCell: {
           styleOverrides:{ 
             root: {
-            backgroundColor: '#81d4fa',
+            backgroundColor: 'rgb(129,202,242)',
           }}
         },
         MUIDataTable: {
@@ -27,7 +27,6 @@ const getMuiTheme = () =>
 export const DataWorker = () => {
 
     const [workers, setWorkers] = useState( [] )
-
     const endpoint = 'http://127.0.0.1:8000/workers/api/v1/workers/'
 
     const getData = async () => {
@@ -71,18 +70,15 @@ export const DataWorker = () => {
                             <IconButton aria-label="delete">
                                 <DeleteIcon />
                             </IconButton>
-                        </Tooltip>
-                    
-
-                    </div>
-                   
+                        </Tooltip>               
+                    </div>                  
                   );
                 }
             }
         }
     ]
-        
-    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:'75vh', elevation:10, 
+
+    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, print:false, tableBodyHeight:'75vh', elevation:10, 
         textLabels: {    
             toolbar: {
                 search: "Buscar Trabajador",
@@ -108,20 +104,17 @@ export const DataWorker = () => {
         },
     }
     
-        return(
-            <ThemeProvider theme={getMuiTheme()}> 
-                <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
-                        <MUIDataTable 
-                            title="Lista de trabajadores"
-                            data={workers}
-                            columns={columns}
-                            options={options}
-                        />                    
-                </Container>
-            </ThemeProvider>
-        
-        )
-
+    return(
+        <ThemeProvider theme={getMuiTheme()}> 
+            <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
+                    <MUIDataTable 
+                        title="Lista de trabajadores"
+                        data={workers}
+                        columns={columns}
+                        options={options}
+                    />                    
+            </Container>
+        </ThemeProvider>
     
-    
+    )
 }
