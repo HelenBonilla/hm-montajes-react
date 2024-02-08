@@ -1,7 +1,7 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-//import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 
@@ -20,15 +20,14 @@ const getMuiTheme = () =>
 
 export const DataDetailedSte = () => {
 
-    //const { id } = useParams();
+    const { id } = useParams();
     const [settlement, setSettlement] = useState( [] )
-    const endpoint = 'http://localhost:8000/settlement/api/v1/settlement-details/'
+    const endpoint = `http://localhost:8000/settlement/api/v1/settlements/${id}/`
 
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
             console.log(data)
-            //console.log(id)
             setSettlement(data)
         })
     }
@@ -38,13 +37,14 @@ export const DataDetailedSte = () => {
     }, [])
         
     const columns = [
-        { name: "worker",label: "Trabajador"},
-        { name: "monday",label: "Lunes", 
-            options: {
-               
- 
-            }
-        },
+        { name: "worker_info",label: "Trabajador", options: {
+            customBodyRender: (value) => {
+              return (
+                <span>{value.name}</span>
+              );
+            },
+        }},
+        { name: "monday",label: "Lunes"},
         { name: "tuesday",label: "Martés"},
         { name: "wednesday",label: "Miércoles"},
         { name: "thursday",label: "Jueves"},
@@ -89,10 +89,10 @@ export const DataDetailedSte = () => {
     
     return(
         <ThemeProvider theme={getMuiTheme()}> 
-            <Container maxWidth="md" sx={{paddingTop: "15px", width:"100%"}} >
+            <Container maxWidth="md" sx={{paddingTop: "15px"}} >
                 <MUIDataTable 
                     title="Información detallada de las liquidaciones"
-                    data={settlement}
+                    data={settlement.details}
                     columns={columns}
                     options={options}
                 />                    
