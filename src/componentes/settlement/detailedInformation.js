@@ -63,8 +63,15 @@ export const DataDetailedSte = () => {
 
     ]
         
-    const options = { filterType: 'checkbox', download:false, responsive:true, filter: false, selectableRows:false, tableBodyHeight:'75vh', elevation:10, 
-        textLabels: {    
+    const options = {
+        filterType: 'checkbox',
+        download:false,
+        responsive:true,
+        filter: false,
+        selectableRows:false,
+        tableBodyHeight:'75vh',
+        elevation:10, 
+        textLabels: {
             toolbar: {
                 search: "Buscar liquidación",
                 downloadCsv: "Descargar Excel",
