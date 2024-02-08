@@ -12,15 +12,22 @@ import { Link } from 'react-router-dom';
 
 const getMuiTheme = () =>
     createTheme({
-      components: {
-        MUIDataTableHeadCell: {
-          styleOverrides:{ 
-            root: {
-            backgroundColor: 'rgb(129,202,242)',
-          }}
+        components: {
+            MUIDataTableHeadCell: {
+            styleOverrides:{ 
+                root: {
+                backgroundColor: 'rgb(129,202,242)',
+            }}
+            },
+        },
+        palette: {
+            secondary: {
+                main: '#9575cd',
+            },
+            primary:{
+                main:'#81c784'
+            }
         }
-        
-      }
 });
 
 export const DataSettlement = () => {
@@ -44,21 +51,12 @@ export const DataSettlement = () => {
             name: "start_date",
             label: "Fecha Inicio",
             options: {
-                sort: true,
                 customBodyRender: (value) => {
                   const fechaFormateada = format(new Date(value), 'yyyy-MM-dd h:mm a');
                   return (
                     <span>{fechaFormateada}</span>
                   );
                 },
-                customSort: (data1, data2) => {
-                    // Función de orden personalizada para fechas por mes
-                    const date1Parts = data1.split('/');
-                    const date2Parts = data2.split('/');
-                    const month1 = parseInt(date1Parts[1], 10);
-                    const month2 = parseInt(date2Parts[1], 10);
-                    return month1 - month2;
-                }
             }
         },
         {
@@ -83,12 +81,12 @@ export const DataSettlement = () => {
                     <div>
                          <Tooltip title="Ver liquidación">
                             <IconButton aria-label="view">
-                                <Link to={`/Liquidaciones/${settlement[dataIndex].id}`}><VisibilityIcon /></Link>
+                                <Link to={`/Liquidaciones/${settlement[dataIndex].id}`} ><VisibilityIcon color='secondary'/></Link>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Descargar">
                             <IconButton aria-label="download">
-                                <FileDownloadIcon />
+                                <FileDownloadIcon color="primary" />
                             </IconButton>
                         </Tooltip>               
                     </div>                  
@@ -98,7 +96,7 @@ export const DataSettlement = () => {
         }
     ]
         
-    const options = { filterType: 'checkbox', download:false, responsive:true, filter: false, selectableRows:false, tableBodyHeight:440, elevation:10, 
+    const options = { filterType: 'checkbox', download:false, responsive:true, print:false, viewColumns:false, filter: false, selectableRows:false, tableBodyHeight:'75vh', elevation:10, 
         textLabels: {    
             toolbar: {
                 search: "Buscar fecha",
@@ -125,7 +123,7 @@ export const DataSettlement = () => {
     
     return(
         <ThemeProvider theme={getMuiTheme()}> 
-            <Container maxWidth="xl" >
+            <Container maxWidth="xl" sx={{paddingTop: "15px"}}  >
                 <MUIDataTable 
                     title="Lista de liquidaciones"
                     data={settlement}

@@ -1,7 +1,7 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+//import { useParams } from 'react-router-dom';
 import { Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 
@@ -20,15 +20,15 @@ const getMuiTheme = () =>
 
 export const DataDetailedSte = () => {
 
-    const { id } = useParams();
+    //const { id } = useParams();
     const [settlement, setSettlement] = useState( [] )
-    const endpoint = `http://localhost:8000/settlement/api/v1/settlement-details/`
+    const endpoint = 'http://localhost:8000/settlement/api/v1/settlement-details/'
 
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
             console.log(data)
-            console.log(id)
+            //console.log(id)
             setSettlement(data)
         })
     }
@@ -39,7 +39,12 @@ export const DataDetailedSte = () => {
         
     const columns = [
         { name: "worker",label: "Trabajador"},
-        { name: "monday",label: "Lunes"},
+        { name: "monday",label: "Lunes", 
+            options: {
+               
+ 
+            }
+        },
         { name: "tuesday",label: "Martés"},
         { name: "wednesday",label: "Miércoles"},
         { name: "thursday",label: "Jueves"},
@@ -58,7 +63,7 @@ export const DataDetailedSte = () => {
 
     ]
         
-    const options = { filterType: 'checkbox', download:false, responsive:true, filter: false, selectableRows:false, tableBodyHeight:440, elevation:10, 
+    const options = { filterType: 'checkbox', download:false, responsive:true, filter: false, selectableRows:false, tableBodyHeight:'75vh', elevation:10, 
         textLabels: {    
             toolbar: {
                 search: "Buscar liquidación",
@@ -84,7 +89,7 @@ export const DataDetailedSte = () => {
     
     return(
         <ThemeProvider theme={getMuiTheme()}> 
-            <Container maxWidth="xl" >
+            <Container maxWidth="md" sx={{paddingTop: "15px", width:"100%"}} >
                 <MUIDataTable 
                     title="Información detallada de las liquidaciones"
                     data={settlement}
