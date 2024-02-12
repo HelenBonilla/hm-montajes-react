@@ -9,19 +9,27 @@ import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 
 const getMuiTheme = () =>
     createTheme({
-      components: {
-        MUIDataTableHeadCell: {
-          styleOverrides:{ 
-            root: {
-            backgroundColor: 'rgb(129,202,242)',
-          }}
-        },
-        MUIDataTable: {
-            responsiveScroll: {
-                maxHeight: '100%',
+        components: {
+            MUIDataTableHeadCell: {
+            styleOverrides:{ 
+                root: {
+                backgroundColor: 'rgb(129,202,242)',
+            }}
+            },
+            MUIDataTable: {
+                responsiveScroll: {
+                    maxHeight: '100%',
+                },
             },
         },
-      }
+        palette: {
+            secondary: {
+                main: '#e57373',
+            }, 
+            primary:{
+                main: '#9575cd',
+            }
+        }
 });
 
 export const DataWorker = () => {
@@ -63,12 +71,12 @@ export const DataWorker = () => {
                     <div>
                          <Tooltip title="Ver trabajador">
                             <IconButton aria-label="visibility">
-                                <VisibilityIcon />
+                                <VisibilityIcon color="primary"/>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Eliminar trabajador">
                             <IconButton aria-label="delete">
-                                <DeleteIcon />
+                                <DeleteIcon color="secondary"/>
                             </IconButton>
                         </Tooltip>               
                     </div>                  
@@ -78,7 +86,7 @@ export const DataWorker = () => {
         }
     ]
 
-    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, print:false, tableBodyHeight:'75vh', elevation:10, 
+    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:'75vh', elevation:10, 
         textLabels: {    
             toolbar: {
                 search: "Buscar Trabajador",

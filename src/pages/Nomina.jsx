@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { DataDetailedSte } from "../componentes/settlement/detailedInformation";
 export function Nomina() {
   return (
   <Container>
-    <DataDetailedSte/>
+    <h1>Nomina</h1>
   </Container>);
 }
 const Container =styled.div`
