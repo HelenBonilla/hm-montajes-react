@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MyRoutes } from "./routers/routes";
 import styled from "styled-components";
 import { BrowserRouter } from "react-router-dom";
-import Sidebar from "./Components/Sidebar";
+import Sidebar from "./components/Sidebar";
 import { Light, Dark } from "./styles/Themes";
 import { ThemeProvider } from "styled-components";
 export const ThemeContext = React.createContext(null);

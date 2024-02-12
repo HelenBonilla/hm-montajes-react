@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { DataSignings } from "../components/signings/signings";
+
 export function Fichajes() {
   return (
     <Container>
-      <h1>Fichajes</h1>
+      <DataSignings /> 
     </Container>
   );
 }
