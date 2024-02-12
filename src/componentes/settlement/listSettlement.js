@@ -2,7 +2,7 @@ import * as React from 'react';
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import { Container, Dialog,DialogContent, Tooltip, IconButton, Button, DialogActions, DialogTitle } from "@mui/material";
-import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
+import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
@@ -19,10 +19,10 @@ const getMuiTheme = () =>
     createTheme({
         components: {
             MUIDataTableHeadCell: {
-            styleOverrides:{ 
-                root: {
-                backgroundColor: 'rgb(129,202,242)',
-            }}
+                styleOverrides:{ 
+                    root: {
+                    backgroundColor: 'rgb(129,202,242)',
+                }}
             },
         },
         palette: {
@@ -42,14 +42,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogActions-root': {
       padding: theme.spacing(1),
     },
-  }));
+}));
 
 export const DataSettlement = () => {
 
     const [settlement, setSettlement] = useState( [] )
     const [openModal, setOpenModal] = React.useState(false);
     const [archivos, setArchivos] = useState(null)
-
 
     const subirArchivos=e=>{
         setArchivos(e)
@@ -59,8 +58,7 @@ export const DataSettlement = () => {
         const f = new FormData();
 
         for (let index = 0; index < archivos[index]; index++) {
-            f.append("files", archivos[index]);
-            
+            f.append("files", archivos[index]);          
         }
 
         await axios.post("",f)
@@ -175,12 +173,10 @@ export const DataSettlement = () => {
         
         },
     }
-
-   
     
     return(
         <ThemeProvider theme={getMuiTheme()}> 
-            <Container maxWidth="xl" sx={{paddingTop: "15px"}}  >
+            <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
                 <Button variant="contained" onClick={handleClickOpen} startIcon={<CloudUploadIcon />}>
                     Importar fichaje
                 </Button>
@@ -188,35 +184,31 @@ export const DataSettlement = () => {
                     onClose={handleClose}
                     aria-labelledby="customized-dialog-title"
                     open={openModal}
-                >
-                
-                <DialogTitle sx={{ m: 0, p: 2, backgroundColor:blue[300]}} id="customized-dialog-title">
-                    Archivo
-                </DialogTitle>
-                <IconButton
-                    aria-label="close"
-                    onClick={handleClose}
-                    sx={{
-                        position: 'absolute',
-                        right: 8,
-                        top: 8,
-                        color: blue[800],
-                    }}
-                    >
-                    <CloseIcon />
-                </IconButton>
-
-                <DialogContent dividers>
-                    <input type='file' onChange={(e)=>subirArchivos(e.target.files)}/>
-                </DialogContent>
-
-                <DialogActions>
-                    <Button variant="contained" onClick={()=>importarArchivo()}>Importar</Button>
-                </DialogActions>
+                >           
+                    <DialogTitle sx={{ m: 0, p: 2, backgroundColor:blue[300]}} id="customized-dialog-title">
+                        Archivo
+                    </DialogTitle>
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                                position: 'absolute',
+                                right: 8,
+                                top: 8,
+                                color: blue[800],
+                            }}
+                            >
+                            <CloseIcon />
+                        </IconButton>
+                    <DialogContent dividers>
+                        <input type='file' onChange={(e)=>subirArchivos(e.target.files)}/>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant="contained" onClick={()=>importarArchivo()}>Importar</Button>
+                    </DialogActions>
                     
                 </BootstrapDialog>
-                     
-                                    
+                                               
                 <MUIDataTable 
                     title="Lista de liquidaciones"
                     data={settlement}
