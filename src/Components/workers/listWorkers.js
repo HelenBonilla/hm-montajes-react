@@ -9,21 +9,32 @@ import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 
 const getMuiTheme = () =>
     createTheme({
-      components: {
-        MUIDataTableHeadCell: {
-          styleOverrides:{ 
-            root: {
-            backgroundColor: '#81d4fa',
-          }}
+        components: {
+            MUIDataTableHeadCell: {
+            styleOverrides:{ 
+                root: {
+                backgroundColor: 'rgb(129,202,242)',
+            }}
+            },
+            MUIDataTable: {
+                responsiveScroll: {
+                    maxHeight: '100%',
+                },
+            },
+        },
+        palette: {
+            secondary: {
+                main: '#e57373',
+            }, 
+            primary:{
+                main: '#9575cd',
+            }
         }
-        
-      }
 });
 
 export const DataWorker = () => {
 
     const [workers, setWorkers] = useState( [] )
-
     const endpoint = 'http://127.0.0.1:8000/workers/api/v1/workers/'
 
     const getData = async () => {
@@ -60,25 +71,22 @@ export const DataWorker = () => {
                     <div>
                          <Tooltip title="Ver trabajador">
                             <IconButton aria-label="visibility">
-                                <VisibilityIcon />
+                                <VisibilityIcon color="primary"/>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Eliminar trabajador">
                             <IconButton aria-label="delete">
-                                <DeleteIcon />
+                                <DeleteIcon color="secondary"/>
                             </IconButton>
-                        </Tooltip>
-                    
-
-                    </div>
-                   
+                        </Tooltip>               
+                    </div>                  
                   );
                 }
             }
         }
     ]
-        
-    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:440, elevation:10, 
+
+    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:'75vh', elevation:10, 
         textLabels: {    
             toolbar: {
                 search: "Buscar Trabajador",
@@ -104,20 +112,17 @@ export const DataWorker = () => {
         },
     }
     
-        return(
-            <ThemeProvider theme={getMuiTheme()}> 
-                <Container maxWidth="xl" >
-                        <MUIDataTable 
-                            title="Lista de trabajadores"
-                            data={workers}
-                            columns={columns}
-                            options={options}
-                        />                    
-                </Container>
-            </ThemeProvider>
-        
-        )
-
+    return(
+        <ThemeProvider theme={getMuiTheme()}> 
+            <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
+                    <MUIDataTable 
+                        title="Lista de trabajadores"
+                        data={workers}
+                        columns={columns}
+                        options={options}
+                    />                    
+            </Container>
+        </ThemeProvider>
     
-    
+    )
 }
