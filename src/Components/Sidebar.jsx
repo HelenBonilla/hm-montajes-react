@@ -2,7 +2,6 @@ import styled from "styled-components";
 import logo from "../assets/logo-hm-web.png";
 import { v } from "../styles/Variables";
 import {
-  AiOutlineHome,
   AiOutlineSetting,
   AiOutlineHourglass,
 } from "react-icons/ai";
@@ -55,19 +54,14 @@ export default function Sidebar() {
 //#region Data links
 const linksArray = [
   {
-    label: "Home",
-    icon: <AiOutlineHome />,
-    to: "/",
-  },
-  {
-    label: "Trabajadores",
-    icon: <MdOutlinePersonPin/>,
-    to: "/Trabajadores",
-  },
-  {
     label: "Fichajes",
     icon: <AiOutlineHourglass />,
     to: "/Fichajes", 
+  },
+   {
+    label: "Trabajadores",
+    icon: <MdOutlinePersonPin/>,
+    to: "/Trabajadores",
   },
   {
     label: "Liquidaciones",

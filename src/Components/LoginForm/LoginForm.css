@@ -15,7 +15,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url(./Components/Assets/slider-home.jpg) no-repeat;
+  background: url(./assets/slider-home.jpg) no-repeat;
   background-size: cover;
   background-position: center; 
 }
@@ -26,7 +26,7 @@ code {
 }
 
 .logo-img {
-  background: url(./Components/Assets/logo-hm-web.png) no-repeat;
+  background: url(./assets/logo-hm-web.png) no-repeat;
   width: 200px;
   height: 100px;
   margin: 10px 60px;
