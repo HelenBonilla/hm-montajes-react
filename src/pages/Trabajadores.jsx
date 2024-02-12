@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DataWorker } from "../components/listWorkers";
+import { DataWorker } from "../components/workers/listWorkers";
 
 export function Trabajadores() {
   return (

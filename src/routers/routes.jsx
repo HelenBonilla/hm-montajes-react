@@ -2,8 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import { Trabajadores } from "../pages/Trabajadores";
 import { Fichajes } from "../pages/Fichajes";
 import { Liquidaciones } from "../pages/Liquidaciones";
-import { DataDetailedSte } from "../componentes/settlement/detailedInformation";
 import { Nomina } from "../pages/Nomina";
+import { DataDetailedSte } from "../components/settlement/detailedInformation";
 export function MyRoutes() {
   return (
       <Routes>
