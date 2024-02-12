@@ -96,7 +96,7 @@ export const DataDetailedSte = () => {
     
     return(
         <ThemeProvider theme={getMuiTheme()}> 
-            <Container maxWidth="md" sx={{paddingTop: "15px"}} >
+            <Container  sx={{paddingTop: "15px", minWidth:700}} >
                 <MUIDataTable 
                     title="Información detallada de las liquidaciones"
                     data={settlement.details}
