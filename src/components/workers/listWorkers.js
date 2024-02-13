@@ -6,6 +6,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
+import { Link } from "react-router-dom";
 
 const getMuiTheme = () =>
     createTheme({
@@ -66,12 +67,14 @@ export const DataWorker = () => {
             name:"action",
             label:"Acciones",
             options: {
-                customBodyRender: () => {
+                customBodyRenderLite: (dataIndex) => {
                   return (
                     <div>
                          <Tooltip title="Ver trabajador">
                             <IconButton aria-label="visibility">
-                                <VisibilityIcon color="primary"/>
+                                <Link to={`/Trabajadores/${workers[dataIndex].id}`} >
+                                    <VisibilityIcon color='primary'/>
+                                </Link>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Eliminar trabajador">

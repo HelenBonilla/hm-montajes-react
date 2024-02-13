@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function FormDialog() {
+export default function ViewWorkers() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -18,7 +18,7 @@ export default function FormDialog() {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Button variant="outlined" onClick={handleClickOpen}>
         Open form dialog
       </Button>
@@ -44,6 +44,6 @@ export default function FormDialog() {
           <Button onClick={handleClose}>Cancelar</Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }
