@@ -2,7 +2,7 @@ import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Container } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 
 const getMuiTheme = () =>
@@ -93,10 +93,24 @@ export const DataDetailedSte = () => {
             },  
         },
     }
+
+    const handleProcess = () => {
+        axios.post('http://127.0.0.1:8000/settlement/api/v1/process/', {
+            id: settlement.id,
+        })
+        .then(response => {
+            console.log(response.data)
+        })
+    }
     
     return(
         <ThemeProvider theme={getMuiTheme()}> 
             <Container  sx={{paddingTop: "15px", minWidth:700}} >
+                <Box sx={{paddingTop: "1px", mb:1}}>
+                    <Button variant="contained" onClick={handleProcess}>
+                        Procesar Liquidación
+                    </Button>
+                </Box>
                 <MUIDataTable 
                     title="Información detallada de las liquidaciones"
                     data={settlement.details}
