@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {DataSettlement} from "../components/settlement/listSettlement"
+
 export function Liquidaciones() {
   return (
   <Container>
