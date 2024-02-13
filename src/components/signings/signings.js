@@ -41,18 +41,19 @@ export const DataSignings = () => {
     const [openModal, setOpenModal] = React.useState(false);
     const [archivos, setArchivos] = useState(null)
 
-    const subirArchivos=e=>{
-        setArchivos(e)
+    const subirArchivos = files => {
+        setArchivos(files)
     }
 
     const importarArchivo=async()=>{
-        const f = new FormData();
+        const formData = new FormData();
+        formData.append("excel_file", archivos[0]);
 
-        for (let index = 0; index < archivos[index]; index++) {
-            f.append("files", archivos[index]);          
-        }
-
-        await axios.post("",f)
+        axios.post('http://127.0.0.1:8000/workers/api/v1/import-signings/', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            },
+        })
         .then(response=>{
             console.log(response.data)
         }).catch(error=>{
@@ -61,7 +62,6 @@ export const DataSignings = () => {
 
         handleClose()
         {<CircularProgress />}
-
     }
 
     const endpoint = 'http://127.0.0.1:8000/workers/api/v1/signings/'
