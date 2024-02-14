@@ -2,7 +2,7 @@ import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Container } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 
 const getMuiTheme = () =>
@@ -93,10 +93,51 @@ export const DataDetailedSte = () => {
             },  
         },
     }
+
+    const handleProcess = () => {
+        axios.post('http://127.0.0.1:8000/settlement/api/v1/process/', {
+            id: settlement.id,
+        })
+        .then(response => {
+            console.log(response.data)
+        })
+    }
+
+    const handleExport = () => {
+        axios.post('http://127.0.0.1:8000/settlement/api/v1/export/', {
+            id: settlement.id,
+        },
+        {
+            responseType: 'blob',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            const disposition = response.request.getResponseHeader('Content-Disposition');
+            const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+            const matches = filenameRegex.exec(disposition);
+            const filename = matches && matches.length > 1 ? matches[1].replace(/['"]/g, '') : 'archivo.xlsx'; // Default filename
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', filename); // File name
+            document.body.appendChild(link);
+            link.click();
+        })
+    }
     
     return(
         <ThemeProvider theme={getMuiTheme()}> 
             <Container  sx={{paddingTop: "15px", minWidth:700}} >
+                <Box sx={{paddingTop: "1px", mb:1}}>
+                    <Button variant="contained" onClick={handleProcess}>
+                        Procesar Liquidación
+                    </Button>
+                    <Button variant="contained" onClick={handleExport}>
+                        Exportar Liquidación
+                    </Button>
+                </Box>
                 <MUIDataTable 
                     title="Información detallada de las liquidaciones"
                     data={settlement.details}
