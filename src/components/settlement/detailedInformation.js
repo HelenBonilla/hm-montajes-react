@@ -1,9 +1,11 @@
 import MUIDataTable from "mui-datatables";
-import { useState, useEffect } from "react";
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { Container } from "@mui/material";
+import { useEffect, useState} from "react";
+import { Box, /* Button,  */Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
+import ExportSettlement from "./ExportSettlement";
+import { useParams } from "react-router";
+import axios from "axios";
+import ProcessSettlement from "./ProcessSettlement";
 
 const getMuiTheme = () =>
     createTheme({
@@ -19,11 +21,10 @@ const getMuiTheme = () =>
 });
 
 export const DataDetailedSte = () => {
-
-    const { id } = useParams();
     const [settlement, setSettlement] = useState( [] )
+    const { id } = useParams();
     const endpoint = `http://localhost:8000/settlement/api/v1/settlements/${id}/`
-
+    
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
@@ -35,7 +36,7 @@ export const DataDetailedSte = () => {
     useEffect( ()=>{
         getData();
     }, [])
-        
+
     const columns = [
         { name: "worker_info",label: "Trabajador", options: {
             customBodyRender: (value) => {
@@ -97,6 +98,13 @@ export const DataDetailedSte = () => {
     return(
         <ThemeProvider theme={getMuiTheme()}> 
             <Container  sx={{paddingTop: "15px", minWidth:700}} >
+                <Box sx={{paddingTop: "1px", mb:1}}>
+                    <ProcessSettlement id={settlement.id} fuctionSetter={setSettlement}/> 
+                    {settlement.processed ? 
+                    <ExportSettlement id={settlement.id}/> : 
+                    null
+                    }
+                </Box>
                 <MUIDataTable 
                     title="Información detallada de las liquidaciones"
                     data={settlement.details}

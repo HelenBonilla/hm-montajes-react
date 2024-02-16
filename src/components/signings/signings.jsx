@@ -1,43 +1,34 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { Container, Tooltip } from "@mui/material";
+import { Container,Tooltip } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
-import { Link } from "react-router-dom";
+import ImportarArchivo from "./ImportarArchivo";
+
 
 const getMuiTheme = () =>
     createTheme({
-        components: {
-            MUIDataTableHeadCell: {
-            styleOverrides:{ 
-                root: {
-                backgroundColor: 'rgb(129,202,242)',
-            }}
-            },
-            MUIDataTable: {
-                responsiveScroll: {
-                    maxHeight: '100%',
-                },
-            },
-        },
-        palette: {
-            secondary: {
-                main: '#e57373',
-            }, 
-            primary:{
-                main: '#9575cd',
-            }
+      components: {
+        MUIDataTableHeadCell: {
+          styleOverrides:{ 
+            root: {
+            backgroundColor: '#81d4fa',
+          }}
         }
+        
+      }
 });
 
-export const DataWorker = () => {
+
+export const DataSignings = () => {
 
     const [workers, setWorkers] = useState( [] )
-    const endpoint = 'http://127.0.0.1:8000/workers/api/v1/workers/'
 
+    const endpoint = 'http://127.0.0.1:8000/workers/api/v1/signings/'
+    
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
@@ -67,32 +58,33 @@ export const DataWorker = () => {
             name:"action",
             label:"Acciones",
             options: {
-                customBodyRenderLite: (dataIndex) => {
+                customBodyRender: () => {
                   return (
                     <div>
-                         <Tooltip title="Ver trabajador">
+                         <Tooltip title="Ver fichaje">
                             <IconButton aria-label="visibility">
-                                <Link to={`/Trabajadores/${workers[dataIndex].id}`} >
-                                    <VisibilityIcon color='primary'/>
-                                </Link>
+                                <VisibilityIcon />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title="Eliminar trabajador">
+                        <Tooltip title="Eliminar fichaje">
                             <IconButton aria-label="delete">
-                                <DeleteIcon color="secondary"/>
+                                <DeleteIcon />
                             </IconButton>
-                        </Tooltip>               
-                    </div>                  
+                        </Tooltip>
+                    
+
+                    </div>
+                   
                   );
                 }
             }
         }
     ]
-
-    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:'75vh', elevation:10, 
+        
+    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:440, elevation:10, 
         textLabels: {    
             toolbar: {
-                search: "Buscar Trabajador",
+                search: "Buscar fichaje",
                 downloadCsv: "Descargar Excel",
                 print: "Imprimir lista",
                 viewColumns: "Ver Columnas",
@@ -108,24 +100,32 @@ export const DataWorker = () => {
             },
             selectedRows: {
                 text: "Columnas seleccionadas",
-                delete: "Eliminar trabajador",
+                delete: "Eliminar fichaje",
                 deleteAria: "Delete Selected Rows",
             },
         
         },
     }
     
-    return(
-        <ThemeProvider theme={getMuiTheme()}> 
-            <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
-                    <MUIDataTable 
-                        title="Lista de trabajadores"
-                        data={workers}
-                        columns={columns}
-                        options={options}
-                    />                    
-            </Container>
-        </ThemeProvider>
+        return(
+            <ThemeProvider theme={getMuiTheme()}> 
+                <Container maxWidth="xl" >
+                    <div>
+                        <ImportarArchivo/>
+
+                        <MUIDataTable 
+                            title="Lista de fichajes"
+                            data={workers}
+                            columns={columns}
+                            options={options}
+                        />  
+                    </div>
+                                                             
+                </Container>
+            </ThemeProvider>
+        
+        )
+
     
-    )
+    
 }
