@@ -23,7 +23,7 @@ const getMuiTheme = () =>
 export const DataDetailedSte = () => {
     const [settlement, setSettlement] = useState( [] )
     const { id } = useParams();
-    const endpoint = `http://localhost:8000/settlement/api/v1/settlements/${id}/`
+    const endpoint = `https://hm-montajes.onrender.com/settlement/api/v1/settlements/${id}/`
     
     const getData = async () => {
         await axios.get(endpoint).then((response) => {

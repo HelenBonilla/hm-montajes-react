@@ -34,7 +34,7 @@ export const DataSettlement = () => {
 
     const [settlement, setSettlement] = useState( [] )
 
-    const endpoint = 'http://127.0.0.1:8000/settlement/api/v1/settlements/'
+    const endpoint = 'https://hm-montajes.onrender.com/settlement/api/v1/settlements/'
 
     const getData = async () => {
         await axios.get(endpoint).then((response) => {

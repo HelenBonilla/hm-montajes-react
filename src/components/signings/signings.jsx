@@ -1,13 +1,10 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { Container,Tooltip } from "@mui/material";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { IconButton } from "@mui/material";
+import { Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import ImportarArchivo from "./ImportarArchivo";
-
+import { format } from 'date-fns';
 
 const getMuiTheme = () =>
     createTheme({
@@ -27,12 +24,11 @@ export const DataSignings = () => {
 
     const [workers, setWorkers] = useState( [] )
 
-    const endpoint = 'http://127.0.0.1:8000/workers/api/v1/signings/'
+    const endpoint = 'https://hm-montajes.onrender.com/workers/api/v1/signings/'
     
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
-            console.log(data)
             setWorkers(data)
         })
     }
@@ -47,41 +43,83 @@ export const DataSignings = () => {
             label: "id"
         },
         {
-            name: "name",
-            label: "Nombre completo"
+            name: "folder_number",
+            label: "Legajo"
         },
         {
-            name: "document",
-            label: "Documento"
-        },
-        {
-            name:"action",
-            label:"Acciones",
+            name: "worker_info",
+            label: "Trabajador",
             options: {
-                customBodyRender: () => {
+                customBodyRender: (value) => {
+                    return (
+                      <span>{value.name}</span>
+                    );
+                },
+            }
+        },
+        {
+            name: "worker_info",
+            label: "Documento",
+            options: {
+                customBodyRender: (value) => {
+                    return (
+                        <span>{value.document}</span>
+                    );
+                }
+            }
+        },
+        {
+            name: "date_signed",
+            label: "Fecha Fichada",
+            options: {
+                customBodyRender: (value) => {
+                  const fechaFormateada = format(new Date(value), 'yyyy-MM-dd h:mm a');
                   return (
-                    <div>
-                         <Tooltip title="Ver fichaje">
-                            <IconButton aria-label="visibility">
-                                <VisibilityIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Eliminar fichaje">
-                            <IconButton aria-label="delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    
-
-                    </div>
-                   
+                    <span>{fechaFormateada}</span>
                   );
                 }
             }
-        }
+        },
+        {
+            name: "normalized_date_signed",
+            label: "Fecha Normalizada",
+            options: {
+                customBodyRender: (value) => {
+                  const fechaFormateada = format(new Date(value), 'yyyy-MM-dd h:mm a');
+                  return (
+                    <span>{fechaFormateada}</span>
+                  );
+                }
+            }
+        },
+        {
+            name: "signed_type",
+            label: "Tipo",
+            options: {
+                customBodyRender: (value) => {
+                    return (
+                        <span>{value === 'E' ? 'Entrada': 'Salida'}</span>
+                    );
+                }
+            }
+        },
+        {
+            name: "door",
+            label: "Puerta"
+        },
+        {
+            name: "contract_number",
+            label: "Número de contrato"
+        },
     ]
         
-    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:440, elevation:10, 
+    const options = {
+        filterType: 'checkbox',
+        responsive: true,
+        filter: false,
+        selectableRows: false,
+        tableBodyHeight: 440,
+        elevation: 10, 
         textLabels: {    
             toolbar: {
                 search: "Buscar fichaje",

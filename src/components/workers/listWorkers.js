@@ -36,7 +36,7 @@ const getMuiTheme = () =>
 export const DataWorker = () => {
 
     const [workers, setWorkers] = useState( [] )
-    const endpoint = 'http://127.0.0.1:8000/workers/api/v1/workers/'
+    const endpoint = 'https://hm-montajes.onrender.com/workers/api/v1/workers/'
 
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
