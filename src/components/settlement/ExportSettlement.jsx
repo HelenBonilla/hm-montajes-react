@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export default function ExportSettlement({id}) {  
     const handleExport = () => {
-        axios.post('http://127.0.0.1:8000/settlement/api/v1/export/', {
+        axios.post('https://hm-montajes.onrender.com/settlement/api/v1/export/', {
             id:id,
         },
         {

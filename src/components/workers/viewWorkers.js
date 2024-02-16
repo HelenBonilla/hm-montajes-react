@@ -24,7 +24,7 @@ const getMuiTheme = () =>
 export default function ViewWorkers() {
   const { id } = useParams();
   const [ worker, setWorker ] = useState({});
-  const endpoint = `http://127.0.0.1:8000/workers/api/v1/workers/${id}/`;
+  const endpoint = `https://hm-montajes.onrender.com/workers/api/v1/workers/${id}/`;
 
 
   const getData = async () => {

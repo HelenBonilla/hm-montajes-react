@@ -27,7 +27,7 @@ export const DataSignings = () => {
 
     const [workers, setWorkers] = useState( [] )
 
-    const endpoint = 'http://127.0.0.1:8000/workers/api/v1/signings/'
+    const endpoint = 'https://hm-montajes.onrender.com/workers/api/v1/signings/'
     
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
