@@ -2,9 +2,7 @@ import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import * as React from 'react';
-import { Box, Button, Container,Dialog, DialogActions, DialogContent, DialogTitle,Tooltip } from "@mui/material";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import { IconButton } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -12,6 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { blue, grey } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
+import { format } from 'date-fns';
 
 const getMuiTheme = () =>
     createTheme({
@@ -92,41 +91,83 @@ export const DataSignings = () => {
             label: "id"
         },
         {
-            name: "name",
-            label: "Nombre completo"
+            name: "folder_number",
+            label: "Legajo"
         },
         {
-            name: "document",
-            label: "Documento"
-        },
-        {
-            name:"action",
-            label:"Acciones",
+            name: "worker_info",
+            label: "Trabajador",
             options: {
-                customBodyRender: () => {
+                customBodyRender: (value) => {
+                    return (
+                      <span>{value.name}</span>
+                    );
+                },
+            }
+        },
+        {
+            name: "worker_info",
+            label: "Documento",
+            options: {
+                customBodyRender: (value) => {
+                    return (
+                        <span>{value.document}</span>
+                    );
+                }
+            }
+        },
+        {
+            name: "date_signed",
+            label: "Fecha Fichada",
+            options: {
+                customBodyRender: (value) => {
+                  const fechaFormateada = format(new Date(value), 'yyyy-MM-dd h:mm a');
                   return (
-                    <div>
-                         <Tooltip title="Ver fichaje">
-                            <IconButton aria-label="visibility">
-                                <VisibilityIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Eliminar fichaje">
-                            <IconButton aria-label="delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    
-
-                    </div>
-                   
+                    <span>{fechaFormateada}</span>
                   );
                 }
             }
-        }
+        },
+        {
+            name: "normalized_date_signed",
+            label: "Fecha Normalizada",
+            options: {
+                customBodyRender: (value) => {
+                  const fechaFormateada = format(new Date(value), 'yyyy-MM-dd h:mm a');
+                  return (
+                    <span>{fechaFormateada}</span>
+                  );
+                }
+            }
+        },
+        {
+            name: "signed_type",
+            label: "Tipo",
+            options: {
+                customBodyRender: (value) => {
+                    return (
+                        <span>{value === 'E' ? 'Entrada': 'Salida'}</span>
+                    );
+                }
+            }
+        },
+        {
+            name: "door",
+            label: "Puerta"
+        },
+        {
+            name: "contract_number",
+            label: "Número de contrato"
+        },
     ]
         
-    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:440, elevation:10, 
+    const options = {
+        filterType: 'checkbox',
+        responsive: true,
+        filter: false,
+        selectableRows: false,
+        tableBodyHeight: 440,
+        elevation: 10, 
         textLabels: {    
             toolbar: {
                 search: "Buscar fichaje",
@@ -152,54 +193,45 @@ export const DataSignings = () => {
         },
     }
     
-        return(
-            <ThemeProvider theme={getMuiTheme()}> 
-                <Container maxWidth="xl" >
-                    <Box sx={{paddingTop: "1px", m:1}}>
-                        <Button variant="contained" onClick={handleClickOpen} startIcon={<CloudUploadIcon />}>
-                            Importar fichaje
-                        </Button>
-                    </Box>
-                    
-                    <BootstrapDialog
-                        onClose={handleClose}
-                        aria-labelledby="customized-dialog-title"
-                        open={openModal}
-                    >           
-                        <DialogTitle sx={{ m: 0, p: 2, backgroundColor:blue[300], color:grey[50]}} id="customized-dialog-title">
-                            Archivo
-                        </DialogTitle>
-                            <IconButton
-                                aria-label="close"
-                                onClick={handleClose}
-                                sx={{
-                                    position: 'absolute',
-                                    right: 8,
-                                    top: 8,
-                                    color: blue[800],
-                                }}
-                                >
-                                <CloseIcon />
-                            </IconButton>
-                        <DialogContent >
-                            <input type='file' onChange={(e)=>subirArchivos(e.target.files)}/>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button variant="contained" onClick={()=>importarArchivo()}>Importar</Button>
-                        </DialogActions>
-                        
-                    </BootstrapDialog>
-                        <MUIDataTable 
-                            title="Lista de fichajes"
-                            data={workers}
-                            columns={columns}
-                            options={options}
-                        />                    
-                </Container>
-            </ThemeProvider>
-        
-        )
-
-    
-    
+    return (
+        <ThemeProvider theme={getMuiTheme()}>
+            <Container maxWidth="xl">
+                <Box sx={{py: "1px", my: 2}}>
+                    <Button variant="contained" onClick={handleClickOpen} startIcon={<CloudUploadIcon />}>
+                        Importar fichaje
+                    </Button>
+                </Box>
+                
+                <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={openModal}>
+                    <DialogTitle sx={{ m: 0, p: 2, backgroundColor:blue[300], color:grey[50]}} id="customized-dialog-title">
+                        Archivo
+                    </DialogTitle>
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                                position: 'absolute',
+                                right: 8,
+                                top: 8,
+                                color: blue[800],
+                            }}
+                            >
+                            <CloseIcon />
+                        </IconButton>
+                    <DialogContent >
+                        <input type='file' onChange={(e)=>subirArchivos(e.target.files)}/>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant="contained" onClick={()=>importarArchivo()}>Importar</Button>
+                    </DialogActions>
+                </BootstrapDialog>
+                <MUIDataTable 
+                    title="Lista de fichajes"
+                    data={workers}
+                    columns={columns}
+                    options={options}
+                />
+            </Container>
+        </ThemeProvider>
+    )
 }
