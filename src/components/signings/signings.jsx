@@ -27,18 +27,31 @@ export const DataSignings = () => {
 
     const [workers, setWorkers] = useState( [] )
 
-    const endpoint = `${API_URL}/workers/api/v1/signings/`
+    const [totalRecords, setTotalRecords] = useState(0);
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const endpoint = `${API_URL}/workers/api/v1/signings/?page=${currentPage}`
     
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
-            const data = response.data
-            setWorkers(data)
+            const data = response.data.results
+            setWorkers((prevData) => [...prevData, ...data]);
         })
     }
+
+    const handlePageChange = (currentPage) => {
+        setCurrentPage(currentPage);
+      };
 
     useEffect( ()=>{
         getData()
     }, [])
+        
+
+    useEffect( ()=>{
+        getData()
+    }, [currentPage])
         
     const columns = [
         {
@@ -123,6 +136,7 @@ export const DataSignings = () => {
         selectableRows: false,
         tableBodyHeight: 440,
         elevation: 10, 
+        onChangePage: handlePageChange,
         textLabels: {    
             toolbar: {
                 search: "Buscar fichaje",
