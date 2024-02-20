@@ -4,6 +4,7 @@ import { Container, Tooltip, IconButton} from "@mui/material";
 import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import { es } from 'date-fns/locale';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -56,10 +57,10 @@ export const DataSettlement = () => {
             label: "Fecha Inicio",
             options: {
                 customBodyRender: (value) => {
-                  const fechaFormateada = format(new Date(value), 'yyyy-MM-dd h:mm a');
-                  return (
-                    <span>{fechaFormateada}</span>
-                  );
+                    const fechaFormateada = format(new Date(value), 'dd/MMM/yyyy h:mm a', {locale: es});
+                    return (
+                        <span>{fechaFormateada}</span>
+                    );
                 },
             }
         },
@@ -68,10 +69,10 @@ export const DataSettlement = () => {
             label: "Fecha Final",
             options: {
                 customBodyRender: (value) => {
-                  const fechaFormateada = format(new Date(value), 'yyyy-MM-dd h:mm a');
-                  return (
-                    <span>{fechaFormateada}</span>
-                  );
+                    const fechaFormateada = format(new Date(value), 'dd/MMM/yyyy h:mm a', {locale: es});
+                    return (
+                        <span>{fechaFormateada}</span>
+                    );
                 }
             }
         
