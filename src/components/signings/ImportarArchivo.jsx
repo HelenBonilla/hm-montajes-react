@@ -45,20 +45,20 @@ export default function ImportarArchivo() {
     const formData = new FormData();
     formData.append("excel_file", archivos[0]);
 
-    setLoading(true)
+    setLoading(true);
     setMessageAlert("Importando fichajes");
     setSeverityAlert("info");
     setOpenAlert(true);
     axios.post(`${API_URL}/workers/api/v1/import-signings/`, formData)
     .then(response=>{
-        console.log(response.data)
-        setLoading(false)
+        console.log(response.data);
+        setLoading(false);
         setMessageAlert("Fichajes importados!");
         setSeverityAlert("success");
         setOpenAlert(false);
     }).catch(error=>{
-        console.log(error)
-        setLoading(false)
+        console.log(error);
+        setLoading(false);
     })
 
     handleClose()
@@ -78,8 +78,8 @@ export default function ImportarArchivo() {
         <Button
           variant="contained"
           onClick={handleClickOpen}
-          startIcon={loading ? <CircularProgress color="inherit"/> : <CloudUploadIcon />}>
-          Importar fichaje
+          startIcon={loading ? <CircularProgress color="inherit" size={20}/> : <CloudUploadIcon/>}>
+          Importar Fichajes
         </Button>
       </Box>
 
