@@ -6,6 +6,8 @@ import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import ImportarArchivo from "./ImportarArchivo";
 import { format } from 'date-fns';
 import { API_URL } from "../utils/constants";
+import { es } from 'date-fns/locale';
+
 
 const getMuiTheme = () =>
     createTheme({
@@ -74,7 +76,7 @@ export const DataSignings = () => {
             label: "Fecha Fichada",
             options: {
                 customBodyRender: (value) => {
-                  const fechaFormateada = format(new Date(value), 'yyyy-MM-dd h:mm a');
+                  const fechaFormateada = format(new Date(value), 'dd/MMM/yyyy h:mm a', {locale: es});
                   return (
                     <span>{fechaFormateada}</span>
                   );
@@ -86,10 +88,10 @@ export const DataSignings = () => {
             label: "Fecha Normalizada",
             options: {
                 customBodyRender: (value) => {
-                  const fechaFormateada = format(new Date(value), 'yyyy-MM-dd h:mm a');
-                  return (
-                    <span>{fechaFormateada}</span>
-                  );
+                    const fechaFormateada = format(new Date(value), 'dd/MMM/yyyy h:mm a', {locale: es});
+                    return (
+                        <span>{fechaFormateada}</span>
+                    );
                 }
             }
         },
