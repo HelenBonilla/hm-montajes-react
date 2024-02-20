@@ -5,6 +5,7 @@ import { Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import ImportarArchivo from "./ImportarArchivo";
 import { format } from 'date-fns';
+import { API_URL } from "../utils/constants";
 
 const getMuiTheme = () =>
     createTheme({
@@ -24,7 +25,7 @@ export const DataSignings = () => {
 
     const [workers, setWorkers] = useState( [] )
 
-    const endpoint = 'https://hm-montajes.onrender.com/workers/api/v1/signings/'
+    const endpoint = `${API_URL}/workers/api/v1/signings/`
     
     const getData = async () => {
         await axios.get(endpoint).then((response) => {

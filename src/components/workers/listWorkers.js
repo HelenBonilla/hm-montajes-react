@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import { Link } from "react-router-dom";
+import { API_URL } from "../utils/constants";
 
 const getMuiTheme = () =>
     createTheme({
@@ -36,7 +37,7 @@ const getMuiTheme = () =>
 export const DataWorker = () => {
 
     const [workers, setWorkers] = useState( [] )
-    const endpoint = 'https://hm-montajes.onrender.com/workers/api/v1/workers/'
+    const endpoint = `${API_URL}/workers/api/v1/workers/`
 
     const getData = async () => {
         await axios.get(endpoint).then((response) => {

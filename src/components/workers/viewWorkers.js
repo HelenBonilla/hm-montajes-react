@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { Container } from '@mui/material';
 import { Box } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
+import { API_URL } from '../utils/constants';
 
 const getMuiTheme = () =>
     createTheme({
@@ -24,7 +25,7 @@ const getMuiTheme = () =>
 export default function ViewWorkers() {
   const { id } = useParams();
   const [ worker, setWorker ] = useState({});
-  const endpoint = `https://hm-montajes.onrender.com/workers/api/v1/workers/${id}/`;
+  const endpoint = `${API_URL}/workers/api/v1/workers/${id}/`;
 
 
   const getData = async () => {
