@@ -42,23 +42,20 @@ export default function ImportarArchivo() {
   }
 
   const importarArchivo = async() => {
-    const f = new FormData();
-
-    for (let index = 0; index < archivos[index]; index++) {
-        f.append("files", archivos[index]);
-    }
+    const formData = new FormData();
+    formData.append("excel_file", archivos[0]);
 
     setLoading(true)
     setMessageAlert("Importando fichajes");
     setSeverityAlert("info");
     setOpenAlert(true);
-    axios.post(`${API_URL}/workers/api/v1/import-signings/`,f)
+    axios.post(`${API_URL}/workers/api/v1/import-signings/`, formData)
     .then(response=>{
         console.log(response.data)
         setLoading(false)
         setMessageAlert("Fichajes importados!");
         setSeverityAlert("success");
-        setOpenAlert(true);
+        setOpenAlert(false);
     }).catch(error=>{
         console.log(error)
         setLoading(false)
