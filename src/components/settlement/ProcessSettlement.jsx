@@ -3,6 +3,7 @@ import { Box } from '@mui/system'
 import axios from 'axios'
 import { AlertSnackbar } from '../common/AlertSnackbar'
 import { useState } from 'react';
+import { API_URL } from '../utils/constants';
 
 export default function ProcessSettlement({id,fuctionSetter}) {
   const [open, setOpen] = useState(false);
@@ -13,7 +14,7 @@ export default function ProcessSettlement({id,fuctionSetter}) {
     setMessage("Procesando fichajes en liquidación");
     setSeverity("info");
     setOpen(true);
-    axios.post('https://hm-montajes.onrender.com/settlement/api/v1/process/', {
+    axios.post(`${API_URL}/settlement/api/v1/process/`, {
         id: id,
     })
     .then(response => {

@@ -11,6 +11,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import axios from 'axios';
 
 import { handleExport } from "./ExportSettlement";
+import { API_URL } from "../utils/constants";
 
 const getMuiTheme = () =>
     createTheme({
@@ -36,7 +37,7 @@ export const DataSettlement = () => {
 
     const [settlement, setSettlement] = useState( [] )
 
-    const endpoint = 'https://hm-montajes.onrender.com/settlement/api/v1/settlements/'
+    const endpoint = `${API_URL}/settlement/api/v1/settlements/`
 
     const getData = async () => {
         await axios.get(endpoint).then((response) => {

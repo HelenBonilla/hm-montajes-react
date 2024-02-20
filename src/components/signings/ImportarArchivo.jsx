@@ -8,6 +8,7 @@ import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import { useState} from "react";
 import { IconButton } from "@mui/material";
+import { API_URL } from '../utils/constants';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -43,7 +44,7 @@ const importarArchivo=async()=>{
         f.append("files", archivos[index]);          
     }
 
-    await axios.post("https://hm-montajes.onrender.com/workers/api/v1/import-signings/",f)
+    await axios.post(`${API_URL}/workers/api/v1/import-signings/`,f)
     .then(response=>{
         console.log(response.data)
     }).catch(error=>{

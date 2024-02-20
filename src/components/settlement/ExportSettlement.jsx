@@ -1,9 +1,10 @@
 import { Button } from '@mui/material'
 import { Box } from '@mui/system';
 import axios from 'axios';
+import { API_URL } from '../utils/constants';
 
 export const handleExport = (id) => {
-    axios.post('https://hm-montajes.onrender.com/settlement/api/v1/export/', {
+    axios.post(`${API_URL}/settlement/api/v1/export/`, {
         id:id,
     },
     {

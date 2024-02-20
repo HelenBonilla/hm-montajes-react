@@ -6,6 +6,7 @@ import ExportSettlement from "./ExportSettlement";
 import { useParams } from "react-router";
 import axios from "axios";
 import ProcessSettlement from "./ProcessSettlement";
+import { API_URL } from "../utils/constants"
 
 const getMuiTheme = () =>
     createTheme({
@@ -23,12 +24,11 @@ const getMuiTheme = () =>
 export const DataDetailedSte = () => {
     const [settlement, setSettlement] = useState( [] )
     const { id } = useParams();
-    const endpoint = `https://hm-montajes.onrender.com/settlement/api/v1/settlements/${id}/`
+    const endpoint = `${API_URL}/settlement/api/v1/settlements/${id}/`
 
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
-            console.log(data)
             setSettlement(data)
         })
     }
