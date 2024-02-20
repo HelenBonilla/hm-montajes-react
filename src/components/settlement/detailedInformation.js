@@ -1,7 +1,8 @@
-import MUIDataTable from "mui-datatables";
+import MUIDataTable, { TableBody, TableHead }  from "mui-datatables";
 import { useEffect, useState} from "react";
-import { Box, /* Button,  */Container } from "@mui/material";
+import { Accordion, AccordionDetails, Box, /* Button,  */Container, Table, TableCell, TableRow} from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
+import * as React from "react";
 import ExportSettlement from "./ExportSettlement";
 import { useParams } from "react-router";
 import axios from "axios";
@@ -26,19 +27,24 @@ export const DataDetailedSte = () => {
     const [settlement, setSettlement] = useState( [] )
     const { id } = useParams();
     const endpoint = `${API_URL}/settlement/api/v1/settlements/${id}/`
+    const [expand] = React.useState([]);
+
 
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
-            setSettlement(data)
+            setSettlement(data)        
         })
     }
 
+
     useEffect( ()=>{
         getData();
+        console.log(id)
     }, [])
 
     const columns = [
+       
         { name: "worker_info",label: "Trabajador", options: {
             customBodyRender: (value) => {
               return (
@@ -46,6 +52,7 @@ export const DataDetailedSte = () => {
               );
             },
         }},
+        //{name: "working_shifts.friday"},
         { name: "monday",label: "Lunes"},
         { name: "tuesday",label: "Martés"},
         { name: "wednesday",label: "Miércoles"},
@@ -62,7 +69,6 @@ export const DataDetailedSte = () => {
         { name: "night_holiday_hours",label: "H.F.N"},
         { name: "daytime_holiday_overtime",label: "H.F.D"},
         { name: "night_holiday_overtime",label: "H.E.F.N"},
-
     ]
         
     const options = {
@@ -72,6 +78,41 @@ export const DataDetailedSte = () => {
         filter: false,
         selectableRows:false,
         tableBodyHeight:'75vh',
+        expandableRows: true,
+        expandableRowsHeader: false,
+        renderExpandableRow: (rowData, rowMeta) => {
+            const colSpan = rowData.length + 5;
+            return (    
+                <tr>
+                <td colSpan={colSpan}>
+                  <Accordion expanded={expand.includes(rowMeta.rowIndex)}>       
+                    <AccordionDetails>
+                        <h4>Horas trabajadas</h4>
+                        <div>
+                        <Table sx={{ maxWidth: 600 }} aria-label="purchases">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Día</TableCell>
+                                    <TableCell>Entrada</TableCell>
+                                    <TableCell>Salida</TableCell>
+                                </TableRow>
+                                <TableBody>
+                                    {Object.keys(settlement.details[rowMeta.dataIndex].working_shifts).map((key, value) => (
+                                        console.log('Columna:', value, key)
+                                    ))}
+
+                                </TableBody>
+                                
+                            </TableHead>
+                        </Table>
+                        </div>
+                    </AccordionDetails>
+                  </Accordion>
+                </td>
+              </tr>      
+            
+            );
+          },
         elevation:10, 
         textLabels: {
             toolbar: {
@@ -84,10 +125,13 @@ export const DataDetailedSte = () => {
                 next: "Siguiente Página",
                 previous: "Página anterior",
                 rowsPerPage: "Filas por páginas:",
+
             },
             body: {
                 noMatch: "Lo sentimos, no se encontraron registros coincidentes",
-                columnHeaderTooltip: column => `${column.label}`
+                columnHeaderTooltip: column => `${column.label}`,
+                expandableRows: "Ver horas trabajadas",
+
             },
             selectedRows: {
                 text: "Columnas seleccionadas",
@@ -111,6 +155,7 @@ export const DataDetailedSte = () => {
                     data={settlement.details}
                     columns={columns}
                     options={options}
+
                 />
             </Container>
         </ThemeProvider>
