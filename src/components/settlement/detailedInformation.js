@@ -24,7 +24,7 @@ export const DataDetailedSte = () => {
     const [settlement, setSettlement] = useState( [] )
     const { id } = useParams();
     const endpoint = `https://hm-montajes.onrender.com/settlement/api/v1/settlements/${id}/`
-    
+
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
@@ -98,7 +98,7 @@ export const DataDetailedSte = () => {
     return(
         <ThemeProvider theme={getMuiTheme()}> 
             <Container  sx={{paddingTop: "15px", minWidth:700}} >
-                <Box sx={{paddingTop: "1px", mb:1}}>
+                <Box sx={{paddingTop: "1px", mb:1, display: "flex", gap: "10px"}}>
                     <ProcessSettlement id={settlement.id} fuctionSetter={setSettlement}/> 
                     {settlement.processed ? 
                     <ExportSettlement id={settlement.id}/> : 
@@ -110,9 +110,8 @@ export const DataDetailedSte = () => {
                     data={settlement.details}
                     columns={columns}
                     options={options}
-                />                    
+                />
             </Container>
         </ThemeProvider>
-        
     )
 }
