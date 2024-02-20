@@ -6,21 +6,21 @@ import { useState } from 'react';
 import { API_URL } from '../utils/constants';
 
 export default function ProcessSettlement({id,fuctionSetter}) {
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("")
-  const [severity, setSeverity] = useState("")
+  const [openAlert, setOpenAlert] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("")
+  const [severityAlert, setSeverityAlert] = useState("")
 
   const handleProcess = () => {
-    setMessage("Procesando fichajes en liquidación");
-    setSeverity("info");
-    setOpen(true);
+    setMessageAlert("Procesando fichajes en liquidación");
+    setSeverityAlert("info");
+    setOpenAlert(true);
     axios.post(`${API_URL}/settlement/api/v1/process/`, {
         id: id,
     })
     .then(response => {
-      setMessage("Liquidación procesada");
-      setSeverity("success");
-      setOpen(true);
+      setMessageAlert("Liquidación procesada");
+      setSeverityAlert("success");
+      setOpenAlert(true);
       fuctionSetter(response.data)
     })
   }
@@ -30,8 +30,8 @@ export default function ProcessSettlement({id,fuctionSetter}) {
         return;
     }
 
-    setOpen(false);
-};
+    setOpenAlert(false);
+  };
 
   return (
     <Box sx={{paddingTop: "1px", mb:1}}>
@@ -39,10 +39,10 @@ export default function ProcessSettlement({id,fuctionSetter}) {
             Procesar Liquidación
         </Button>
         <AlertSnackbar
-            open={open}
+            open={openAlert}
             onClose={handleClose}
-            severity={severity}
-            message={message}
+            severity={severityAlert}
+            message={messageAlert}
         />
     </Box>
 

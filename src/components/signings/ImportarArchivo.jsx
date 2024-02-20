@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import { useState} from "react";
 import { IconButton } from "@mui/material";
 import { API_URL } from '../utils/constants';
-
+import { AlertSnackbar } from '../common/AlertSnackbar'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -24,6 +24,10 @@ export default function ImportarArchivo() {
 
   const [openModal, setOpenModal] = React.useState(false);
   const [archivos, setArchivos] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [openAlert, setOpenAlert] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("")
+  const [severityAlert, setSeverityAlert] = useState("")
 
   const handleClickOpen = () => {
     setOpenModal(true);
@@ -33,36 +37,58 @@ export default function ImportarArchivo() {
     setOpenModal(false);
   };
 
-  const subirArchivos=e=>{
+  const subirArchivos = e => {
     setArchivos(e)
-}
+  }
 
-const importarArchivo=async()=>{
-    const f = new FormData();
+  const importarArchivo = async() => {
+    const formData = new FormData();
+    formData.append("excel_file", archivos[0]);
 
-    for (let index = 0; index < archivos[index]; index++) {
-        f.append("files", archivos[index]);          
-    }
-
-    await axios.post(`${API_URL}/workers/api/v1/import-signings/`,f)
+    setLoading(true)
+    setMessageAlert("Importando fichajes");
+    setSeverityAlert("info");
+    setOpenAlert(true);
+    axios.post(`${API_URL}/workers/api/v1/import-signings/`, formData)
     .then(response=>{
         console.log(response.data)
+        setLoading(false)
+        setMessageAlert("Fichajes importados!");
+        setSeverityAlert("success");
+        setOpenAlert(false);
     }).catch(error=>{
         console.log(error)
+        setLoading(false)
     })
 
     handleClose()
-    {<CircularProgress />}
+  }
 
-}
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+
+    setOpenAlert(false);
+  };
 
   return (
     <>
-      <Box sx={{paddingTop: "1px", m:1}}>
-        <Button variant="contained" onClick={handleClickOpen} startIcon={<CloudUploadIcon />}>
+      <Box sx={{paddingTop: "1px", my:1}}>
+        <Button
+          variant="contained"
+          onClick={handleClickOpen}
+          startIcon={loading ? <CircularProgress color="inherit"/> : <CloudUploadIcon />}>
           Importar fichaje
         </Button>
       </Box>
+
+      <AlertSnackbar
+        open={openAlert}
+        onClose={handleCloseAlert}
+        severity={severityAlert}
+        message={messageAlert}
+      />
 
       <BootstrapDialog
         onClose={handleClose}
@@ -91,7 +117,6 @@ const importarArchivo=async()=>{
             <Button variant="contained" onClick={()=>importarArchivo()}>Importar</Button>
         </DialogActions>
       </BootstrapDialog>
-      
     </>
   )
 }
