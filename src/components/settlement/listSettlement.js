@@ -10,6 +10,8 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import axios from 'axios';
 
+import { handleExport } from "./ExportSettlement";
+
 const getMuiTheme = () =>
     createTheme({
         components: {
@@ -86,7 +88,7 @@ export const DataSettlement = () => {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Descargar">
-                            <IconButton aria-label="download">
+                            <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id)}>
                                 <FileDownloadIcon color="primary" />
                             </IconButton>
                         </Tooltip>               
