@@ -2,6 +2,7 @@ import { Button } from '@mui/material'
 import { Box } from '@mui/system';
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
 export const handleExport = (id) => {
     axios.post(`${API_URL}/settlement/api/v1/export/`, {
@@ -30,7 +31,11 @@ export const handleExport = (id) => {
 export default function ExportSettlement({id}) {  
     return (
         <Box sx={{paddingTop: "1px", mb:1}}>
-            <Button variant="contained" onClick={() => handleExport(id)}>
+            <Button
+                variant="contained"
+                onClick={() => handleExport(id)}
+                startIcon={<CloudDownloadIcon/>}
+            >
             Exportar Liquidación 
             </Button>
         </Box>
