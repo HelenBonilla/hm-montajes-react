@@ -2,17 +2,13 @@ import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import { Container, Tooltip, IconButton} from "@mui/material";
 import { createTheme , ThemeProvider  } from '@mui/material/styles';
-import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
-import { es } from 'date-fns/locale';
-
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-
 import axios from 'axios';
-
 import { handleExport } from "./ExportSettlement";
 import { API_URL } from "../utils/constants";
+import { dateFormat } from "../utils/format";
 
 const getMuiTheme = () =>
     createTheme({
@@ -57,7 +53,7 @@ export const DataSettlement = () => {
             label: "Fecha Inicio",
             options: {
                 customBodyRender: (value) => {
-                    const fechaFormateada = format(new Date(value), 'dd/MMM/yyyy h:mm a', {locale: es});
+                    const fechaFormateada = dateFormat(value)
                     return (
                         <span>{fechaFormateada}</span>
                     );
@@ -69,7 +65,7 @@ export const DataSettlement = () => {
             label: "Fecha Final",
             options: {
                 customBodyRender: (value) => {
-                    const fechaFormateada = format(new Date(value), 'dd/MMM/yyyy h:mm a', {locale: es});
+                    const fechaFormateada = dateFormat(value)
                     return (
                         <span>{fechaFormateada}</span>
                     );
