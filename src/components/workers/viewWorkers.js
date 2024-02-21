@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { format } from 'date-fns';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { Container } from '@mui/material';
 import { Box } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import { API_URL } from '../utils/constants';
-import { es } from 'date-fns/locale';
+import { dateFormat } from '../utils/format';
 
 
 const getMuiTheme = () =>
@@ -56,7 +55,7 @@ export default function ViewWorkers() {
         label: "Fecha Fichada",
         options: {
             customBodyRender: (value) => {
-              const fechaFormateada = format(new Date(value), 'dd/MMM/yyyy h:mm a', {locale: es});
+              const fechaFormateada = dateFormat(value)
               return (
                 <span>{fechaFormateada}</span>
               );
@@ -68,7 +67,7 @@ export default function ViewWorkers() {
         label: "Fecha Normalizada",
         options: {
             customBodyRender: (value) => {
-              const fechaFormateada = format(new Date(value), 'dd/MMM/yyyy h:mm a', {locale: es});
+              const fechaFormateada = dateFormat(value)
               return (
                 <span>{fechaFormateada}</span>
               );

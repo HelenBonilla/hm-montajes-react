@@ -16,7 +16,7 @@ export default function ProcessSettlement({id, fuctionSetter}) {
   const handleProcess = () => {
     setLoading(true);
     setMessageAlert("Procesando fichajes en liquidación");
-    setSeverityAlert("info");
+    setSeverityAlert("warning");
     setOpenAlert(true);
     axios.post(`${API_URL}/settlement/api/v1/process/`, {
         id: id,

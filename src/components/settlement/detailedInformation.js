@@ -9,6 +9,7 @@ import { useParams } from "react-router";
 import axios from "axios";
 import ProcessSettlement from "./ProcessSettlement";
 import { API_URL } from "../utils/constants"
+import { dateFormat } from "../utils/format";
 
 
 const getMuiTheme = () =>
@@ -109,8 +110,38 @@ export const DataDetailedSte = () => {
                                 <TableBody>
                                     <TableRow>
                                         <TableCell>Lunes</TableCell>
-                                        <TableCell>{monday.start}</TableCell>
-                                        <TableCell>{monday.end}</TableCell>
+                                        <TableCell>{dateFormat(monday.start)}</TableCell>
+                                        <TableCell>{dateFormat(monday.end)}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Martes</TableCell>
+                                        <TableCell>{dateFormat(tuesday.start)}</TableCell>
+                                        <TableCell>{dateFormat(tuesday.end)}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Miércoles</TableCell>
+                                        <TableCell>{dateFormat(wednesday.start)}</TableCell>
+                                        <TableCell>{dateFormat(wednesday.end)}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Jueves</TableCell>
+                                        <TableCell>{dateFormat(thursday.start)}</TableCell>
+                                        <TableCell>{dateFormat(thursday.end)}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Viernes</TableCell>
+                                        <TableCell>{dateFormat(friday.start)}</TableCell>
+                                        <TableCell>{dateFormat(friday.end)}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Sábado</TableCell>
+                                        <TableCell>{dateFormat(saturday.start)}</TableCell>
+                                        <TableCell>{dateFormat(saturday.end)}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Domingo</TableCell>
+                                        <TableCell>{dateFormat(sunday.start)}</TableCell>
+                                        <TableCell>{dateFormat(sunday.end)}</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
