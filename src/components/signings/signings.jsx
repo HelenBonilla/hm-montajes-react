@@ -120,6 +120,8 @@ export const DataSignings = () => {
         filter: false,
         selectableRows: false,
         tableBodyHeight: 440,
+        rowsPerPage:50,
+        rowsPerPageOptions:false,
         elevation: 10, 
         textLabels: {    
             toolbar: {
