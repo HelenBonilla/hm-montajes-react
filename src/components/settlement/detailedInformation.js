@@ -1,6 +1,7 @@
-import MUIDataTable, { TableBody, TableHead }  from "mui-datatables";
+import MUIDataTable  from "mui-datatables";
 import { useEffect, useState} from "react";
-import { Accordion, AccordionDetails, Box, /* Button,  */Container, Table, TableCell, TableRow} from "@mui/material";
+import { Accordion, AccordionDetails, Box, /* Button, */Container, Table, TableCell, TableRow, TableBody} from "@mui/material";
+import TableHead from '@mui/material/TableHead';
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import * as React from "react";
 import ExportSettlement from "./ExportSettlement";
@@ -82,37 +83,43 @@ export const DataDetailedSte = () => {
         expandableRowsHeader: false,
         renderExpandableRow: (rowData, rowMeta) => {
             const colSpan = rowData.length + 5;
-            return (    
+            const {
+                monday,
+                tuesday,
+                wednesday,
+                thursday,
+                friday,
+                saturday,
+                sunday
+            } = settlement.details[rowMeta.dataIndex].working_shifts
+            return (
                 <tr>
-                <td colSpan={colSpan}>
-                  <Accordion expanded={expand.includes(rowMeta.rowIndex)}>       
-                    <AccordionDetails>
-                        <h4>Horas trabajadas</h4>
-                        <div>
-                        <Table sx={{ maxWidth: 600 }} aria-label="purchases">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Día</TableCell>
-                                    <TableCell>Entrada</TableCell>
-                                    <TableCell>Salida</TableCell>
-                                </TableRow>
+                    <td colSpan={colSpan}>
+                        <Accordion expanded={expand.includes(rowMeta.rowIndex)}>
+                        <AccordionDetails>
+                            <h4>Horas trabajadas</h4>
+                            <Table sx={{ maxWidth: 600 }} aria-label="purchases">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Día</TableCell>
+                                        <TableCell>Entrada</TableCell>
+                                        <TableCell>Salida</TableCell>
+                                    </TableRow>
+                                </TableHead>
                                 <TableBody>
-                                    {Object.keys(settlement.details[rowMeta.dataIndex].working_shifts).map((key, value) => (
-                                        console.log('Columna:', value, key)
-                                    ))}
-
+                                    <TableRow>
+                                        <TableCell>Lunes</TableCell>
+                                        <TableCell>{monday.start}</TableCell>
+                                        <TableCell>{monday.end}</TableCell>
+                                    </TableRow>
                                 </TableBody>
-                                
-                            </TableHead>
-                        </Table>
-                        </div>
-                    </AccordionDetails>
-                  </Accordion>
-                </td>
-              </tr>      
-            
+                            </Table>
+                        </AccordionDetails>
+                        </Accordion>
+                    </td>
+                </tr>
             );
-          },
+        },
         elevation:10, 
         textLabels: {
             toolbar: {
