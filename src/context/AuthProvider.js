@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {
     createContext,
-    useContext,
     useEffect,
     useMemo,
     useState,
@@ -9,8 +8,8 @@ import {
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-    const [token, setToken_] = useState(localStorage.getItem('token'))
+export const AuthProvider = ({ children }) => {
+    const [token, setToken_] = useState(null)
 
     const setToken = (newToken) => {
         setToken_(newToken);
@@ -22,7 +21,7 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem('token', token);
         } else {
             delete axios.defaults.headers.common["Authorization"];
-            localStorage.removeItem('token')
+            localStorage.removeItem('token');
         }
     }, [token]);
 
@@ -43,8 +42,4 @@ const AuthProvider = ({ children }) => {
     );
 };
 
-export const useAuth = () => {
-    return useContext(AuthContext);
-}
-
-export default AuthProvider;
+export default AuthContext;

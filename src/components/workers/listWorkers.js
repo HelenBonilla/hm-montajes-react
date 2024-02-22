@@ -73,7 +73,7 @@ export const DataWorker = () => {
                     <div>
                          <Tooltip title="Ver trabajador">
                             <IconButton aria-label="visibility">
-                                <Link to={`/Trabajadores/${workers[dataIndex].id}`} >
+                                <Link to={`/trabajadores/${workers[dataIndex].id}`} >
                                     <VisibilityIcon color='primary'/>
                                 </Link>
                             </IconButton>

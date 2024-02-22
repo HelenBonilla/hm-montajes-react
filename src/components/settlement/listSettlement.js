@@ -82,7 +82,7 @@ export const DataSettlement = () => {
                     <div>
                          <Tooltip title="Ver liquidación">
                             <IconButton aria-label="view">
-                                <Link to={`/Liquidaciones/${settlement[dataIndex].id}`} ><VisibilityIcon color='secondary'/></Link>
+                                <Link to={`/liquidaciones/${settlement[dataIndex].id}`} ><VisibilityIcon color='secondary'/></Link>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Descargar">

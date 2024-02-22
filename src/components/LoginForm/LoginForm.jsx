@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 import { FaUser, FaLock } from "react-icons/fa";
 import "./LoginForm.css";
 import api from "../../api/api"
