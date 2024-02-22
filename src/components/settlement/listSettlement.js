@@ -99,7 +99,7 @@ export const DataSettlement = () => {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Descargar">
-                            <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id)}>
+                            <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id, axiosPrivate)}>
                                 <FileDownloadIcon color="primary" />
                             </IconButton>
                         </Tooltip>               

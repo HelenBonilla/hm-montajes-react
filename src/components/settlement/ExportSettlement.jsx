@@ -1,11 +1,10 @@
 import { Button } from '@mui/material'
 import { Box } from '@mui/system';
-import axios from 'axios';
-import API_URL from '../utils/constants';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
-export const handleExport = (id) => {
-    axios.post(`${API_URL}/settlement/api/v1/export/`, {
+export const handleExport = (id, axiosClient) => {
+    axiosClient.post('/settlement/api/v1/export/', {
         id:id,
     },
     {
@@ -28,12 +27,14 @@ export const handleExport = (id) => {
     })
 }
 
-export default function ExportSettlement({id}) {  
+const ExportSettlement = ({id}) => {
+    const axiosPrivate = useAxiosPrivate();
+
     return (
         <Box sx={{paddingTop: "1px", mb:1}}>
             <Button
                 variant="contained"
-                onClick={() => handleExport(id)}
+                onClick={() => handleExport(id, axiosPrivate)}
                 startIcon={<CloudDownloadIcon/>}
             >
             Exportar Liquidación 
@@ -41,3 +42,5 @@ export default function ExportSettlement({id}) {
         </Box>
     )
 }
+
+export default ExportSettlement;
