@@ -1,11 +1,12 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Container, Tooltip, IconButton} from "@mui/material";
 import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import axios from 'axios';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { handleExport } from "./ExportSettlement";
 import API_URL from "../utils/constants";
 import { dateFormat } from "../utils/format";
@@ -33,20 +34,36 @@ const getMuiTheme = () =>
 export const DataSettlement = () => {
 
     const [settlement, setSettlement] = useState( [] )
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const endpoint = `${API_URL}/settlement/api/v1/settlements/`
 
-    const getData = async () => {
-        await axios.get(endpoint).then((response) => {
-            const data = response.data
-            setSettlement(data)
-        })
-    }
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
 
-    useEffect( ()=>{
-        getData()
+        const getSettlements = async () => {
+            try {
+                const response = await axiosPrivate.get(endpoint, {
+                    signal: controller.signal
+                });
+                isMounted && setSettlement(response.data);
+            } catch (error) {
+                console.error(error);
+                // navigate('/auth/login', { state: { from: location }, replace: true });
+            }
+        }
+
+        getSettlements();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
     }, [])
-        
+
     const columns = [
         {
             name: "start_date",
