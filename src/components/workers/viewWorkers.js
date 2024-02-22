@@ -5,7 +5,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { Container } from '@mui/material';
 import { Box } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
-import { API_URL } from '../utils/constants';
+import API_URL from '../utils/constants';
 import { dateFormat } from '../utils/format';
 
 

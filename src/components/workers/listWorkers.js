@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import { Link } from "react-router-dom";
-import { API_URL } from "../utils/constants";
+import API_URL from "../utils/constants";
 
 const getMuiTheme = () =>
     createTheme({

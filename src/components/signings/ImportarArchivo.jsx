@@ -8,7 +8,7 @@ import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import { useState} from "react";
 import { IconButton } from "@mui/material";
-import { API_URL } from '../utils/constants';
+import API_URL from '../utils/constants';
 import { AlertSnackbar } from '../common/AlertSnackbar'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({

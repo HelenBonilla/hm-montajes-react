@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import ImportarArchivo from "./ImportarArchivo";
-import { API_URL } from "../utils/constants";
+import API_URL from "../utils/constants";
 import { dateFormat } from "../utils/format";
 
 const getMuiTheme = () =>

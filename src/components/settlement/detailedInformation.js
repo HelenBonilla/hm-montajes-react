@@ -8,7 +8,7 @@ import ExportSettlement from "./ExportSettlement";
 import { useParams } from "react-router";
 import axios from "axios";
 import ProcessSettlement from "./ProcessSettlement";
-import { API_URL } from "../utils/constants"
+import API_URL from "../utils/constants"
 import { dateFormat } from "../utils/format";
 
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { FaUser, FaLock } from "react-icons/fa";
 import "./LoginForm.css";
-import api from "../../api/api"
+import axios from "../../api/axios"
 
 const LoginForm = () => {
     const { setToken } = useAuth();
@@ -20,7 +20,7 @@ const LoginForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        api.post('api/token/', {
+        axios.post('api/token/', {
             'username': username,
             'password': password,
         })

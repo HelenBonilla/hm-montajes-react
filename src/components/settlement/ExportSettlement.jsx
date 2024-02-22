@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import { Box } from '@mui/system';
 import axios from 'axios';
-import { API_URL } from '../utils/constants';
+import API_URL from '../utils/constants';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
 export const handleExport = (id) => {

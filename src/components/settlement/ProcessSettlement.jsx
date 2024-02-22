@@ -3,7 +3,7 @@ import { Box } from '@mui/system'
 import axios from 'axios'
 import { AlertSnackbar } from '../common/AlertSnackbar'
 import { useState } from 'react';
-import { API_URL } from '../utils/constants';
+import API_URL from '../utils/constants';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CircularProgress from '@mui/material/CircularProgress';
 

@@ -7,7 +7,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import axios from 'axios';
 import { handleExport } from "./ExportSettlement";
-import { API_URL } from "../utils/constants";
+import API_URL from "../utils/constants";
 import { dateFormat } from "../utils/format";
 
 const getMuiTheme = () =>
