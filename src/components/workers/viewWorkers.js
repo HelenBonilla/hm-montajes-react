@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { ThemeProvider, createTheme } from '@mui/material';
 import { Container } from '@mui/material';
 import { Box } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
-import { API_URL } from '../utils/constants';
 import { dateFormat } from '../utils/format';
-
 
 const getMuiTheme = () =>
     createTheme({
@@ -22,24 +20,36 @@ const getMuiTheme = () =>
       }
 });
 
-
 export default function ViewWorkers() {
   const { id } = useParams();
   const [ worker, setWorker ] = useState({});
-  const endpoint = `${API_URL}/workers/api/v1/workers/${id}/`;
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
 
-  const getData = async () => {
-    await axios.get(endpoint).then((response) => {
-      const data = response.data
-      console.log(data)
-      setWorker(data)
-    })
-  }
+    const getWorker = async () => {
+      try {
+        const response = await axiosPrivate.get(`/workers/api/v1/workers/${id}/`, {
+          signal: controller.signal
+        });
+        isMounted && setWorker(response.data);
+      } catch (error) {
+        console.error(error);
+        // navigate('/auth/login', { state: { from: location }, replace: true });
+      }
+    }
 
-  useEffect(()=>{
-    getData()
-  },[]) 
+    getWorker();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    }
+  }, [])
 
   const columns = [
     {
@@ -94,12 +104,12 @@ export default function ViewWorkers() {
         label: "Número de contrato"
     },
 ]
-    
-const options = {
+
+  const options = {
     filterType: 'checkbox',
-    responsive: true,
+    responsive: 'standard',
     filter: false,
-    selectableRows: false,
+    selectableRows: 'none',
     tableBodyHeight: 440,
     elevation: 10, 
     textLabels: {    
@@ -123,10 +133,8 @@ const options = {
             delete: "Eliminar fichaje",
             deleteAria: "Delete Selected Rows",
         },
-    
     },
-}
-
+  }
 
   return (
     <ThemeProvider theme={getMuiTheme()}>
@@ -135,7 +143,7 @@ const options = {
               <h2>{worker.name}</h2>
               <h3>{worker.document}</h3>
             </Box>
-            <MUIDataTable 
+            <MUIDataTable
                 title="Lista de fichajes"
                 data={worker.signings}
                 columns={columns}
@@ -143,5 +151,5 @@ const options = {
             />
         </Container>
     </ThemeProvider>
-)
+  )
 }

@@ -1,14 +1,13 @@
 import MUIDataTable  from "mui-datatables";
 import { useEffect, useState} from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Accordion, AccordionDetails, Box, /* Button, */Container, Table, TableCell, TableRow, TableBody} from "@mui/material";
 import TableHead from '@mui/material/TableHead';
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
-import * as React from "react";
 import ExportSettlement from "./ExportSettlement";
 import { useParams } from "react-router";
-import axios from "axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ProcessSettlement from "./ProcessSettlement";
-import { API_URL } from "../utils/constants"
 import { dateFormat } from "../utils/format";
 
 
@@ -27,26 +26,37 @@ const getMuiTheme = () =>
 
 export const DataDetailedSte = () => {
     const [settlement, setSettlement] = useState( [] )
+    const axiosPrivate = useAxiosPrivate();
     const { id } = useParams();
-    const endpoint = `${API_URL}/settlement/api/v1/settlements/${id}/`
-    const [expand] = React.useState([]);
-
-
-    const getData = async () => {
-        await axios.get(endpoint).then((response) => {
-            const data = response.data
-            setSettlement(data)        
-        })
-    }
-
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [expand] = useState([]);
 
     useEffect( ()=>{
-        getData();
-        console.log(id)
+        let isMounted = true;
+        const controller = new AbortController();
+
+        const getSettlement = async () => {
+            try {
+                const response = await axiosPrivate.get(`/settlement/api/v1/settlements/${id}/`, {
+                    signal: controller.signal
+                });
+                isMounted && setSettlement(response.data);
+            } catch (error) {
+                console.error(error);
+                // navigate('/auth/login', { state: { from: location }, replace: true });
+            }
+        }
+
+        getSettlement();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
     }, [])
 
     const columns = [
-       
         { name: "worker_info",label: "Trabajador", options: {
             customBodyRender: (value) => {
               return (
@@ -54,7 +64,6 @@ export const DataDetailedSte = () => {
               );
             },
         }},
-        //{name: "working_shifts.friday"},
         { name: "monday",label: "Lunes"},
         { name: "tuesday",label: "Martés"},
         { name: "wednesday",label: "Miércoles"},
@@ -76,9 +85,9 @@ export const DataDetailedSte = () => {
     const options = {
         filterType: 'checkbox',
         download:false,
-        responsive:true,
+        responsive: 'standard',
         filter: false,
-        selectableRows:false,
+        selectableRows: 'none',
         tableBodyHeight:'75vh',
         expandableRows: true,
         expandableRowsHeader: false,
