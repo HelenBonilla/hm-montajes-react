@@ -1,13 +1,13 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import { useNavigate, useLocation } from "react-router-dom";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Container, Tooltip } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import { Link } from "react-router-dom";
-import API_URL from "../utils/constants";
 
 const getMuiTheme = () =>
     createTheme({
@@ -35,22 +35,35 @@ const getMuiTheme = () =>
 });
 
 export const DataWorker = () => {
-
     const [workers, setWorkers] = useState( [] )
-    const endpoint = `${API_URL}/workers/api/v1/workers/`
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const getData = async () => {
-        await axios.get(endpoint).then((response) => {
-            const data = response.data
-            console.log(data)
-            setWorkers(data)
-        })
-    }
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
 
-    useEffect( ()=>{
-        getData()
+        const getWorkers = async () => {
+            try {
+                const response = await axiosPrivate.get('/workers/api/v1/workers/', {
+                    signal: controller.signal
+                });
+                isMounted && setWorkers(response.data);
+            } catch (error) {
+                console.error(error);
+                // navigate('/auth/login', { state: { from: location }, replace: true });
+            }
+        }
+
+        getWorkers();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
     }, [])
-        
+
     const columns = [
         {
             name: "id",
@@ -90,8 +103,14 @@ export const DataWorker = () => {
         }
     ]
 
-    const options = { filterType: 'checkbox', responsive:true, filter: false, selectableRows:false, tableBodyHeight:'75vh', elevation:10, 
-        textLabels: {    
+    const options = {
+        filterType: 'checkbox',
+        responsive: 'standard',
+        filter: false,
+        selectableRows: 'none',
+        tableBodyHeight:'75vh',
+        elevation:10,
+        textLabels: {
             toolbar: {
                 search: "Buscar Trabajador",
                 downloadCsv: "Descargar Excel",
@@ -112,21 +131,19 @@ export const DataWorker = () => {
                 delete: "Eliminar trabajador",
                 deleteAria: "Delete Selected Rows",
             },
-        
         },
     }
-    
+
     return(
-        <ThemeProvider theme={getMuiTheme()}> 
+        <ThemeProvider theme={getMuiTheme()}>
             <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
-                    <MUIDataTable 
+                    <MUIDataTable
                         title="Lista de trabajadores"
                         data={workers}
                         columns={columns}
                         options={options}
-                    />                    
+                    />
             </Container>
         </ThemeProvider>
-    
     )
 }
