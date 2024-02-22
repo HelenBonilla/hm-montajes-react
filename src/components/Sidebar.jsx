@@ -8,9 +8,9 @@ import {
 import { MdOutlineAnalytics, MdLogout, MdOutlinePersonPin, MdOutlineMoney} from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
-import { ThemeContext } from "../App";
+import { ThemeContext } from "./layouts/HomeLayout";
 export default function Sidebar() {
-  const { /* setTheme ,*/ theme } = useContext(ThemeContext);
+  const { setTheme, theme } = useContext(ThemeContext);
   const sidebarOpen = true;
   /* const CambiarTheme = () => {
     setTheme((theme) => (theme === "light" ? "dark" : "light"));
@@ -56,22 +56,22 @@ const linksArray = [
   {
     label: "Fichajes",
     icon: <AiOutlineHourglass />,
-    to: "/Fichajes", 
+    to: "/fichajes",
   },
    {
     label: "Trabajadores",
     icon: <MdOutlinePersonPin/>,
-    to: "/Trabajadores",
+    to: "/trabajadores",
   },
   {
     label: "Liquidaciones",
     icon: <MdOutlineAnalytics />,
-    to: "/Liquidaciones",
+    to: "/liquidaciones",
   },
   {
     label: "Nomina",
     icon: <MdOutlineMoney />,
-    to: "/Nomina",
+    to: "/nomina",
   },
 ];
 const secondarylinksArray = [
