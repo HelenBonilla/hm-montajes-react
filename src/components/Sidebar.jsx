@@ -8,9 +8,11 @@ import {
 import { MdOutlineAnalytics, MdLogout, MdOutlinePersonPin, MdOutlineMoney} from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
-import { ThemeContext } from "../App";
+import { ThemeContext } from "./layouts/HomeLayout";
+import { LogoutButton } from "./LoginForm/LogoutButton";
+
 export default function Sidebar() {
-  const { /* setTheme ,*/ theme } = useContext(ThemeContext);
+  const { setTheme, theme } = useContext(ThemeContext);
   const sidebarOpen = true;
   /* const CambiarTheme = () => {
     setTheme((theme) => (theme === "light" ? "dark" : "light"));
@@ -35,19 +37,19 @@ export default function Sidebar() {
         </div>
       ))}
       <Divider />
-      {secondarylinksArray.map(({ icon, label, to }) => (
-        <div className="LinkContainer" key={label}>
-          <NavLink
-            to={to}
-            className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
-          >
-            <div className="Linkicon">{icon}</div>
-            {sidebarOpen && <span>{label}</span>}
-          </NavLink>
-        </div>
-      ))}
+        {secondarylinksArray.map(({ icon, label, to }) => (
+          <div className="LinkContainer" key={label}>
+            <NavLink
+              to={to}
+              className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
+            >
+              <div className="Linkicon">{icon}</div>
+              {sidebarOpen && <span>{label}</span>}
+            </NavLink>
+          </div>
+        ))}
+        <LogoutButton/>
       <Divider />
-     
     </Container>
   );
 }
@@ -56,33 +58,28 @@ const linksArray = [
   {
     label: "Fichajes",
     icon: <AiOutlineHourglass />,
-    to: "/Fichajes", 
+    to: "/fichajes",
   },
    {
     label: "Trabajadores",
     icon: <MdOutlinePersonPin/>,
-    to: "/Trabajadores",
+    to: "/trabajadores",
   },
   {
     label: "Liquidaciones",
     icon: <MdOutlineAnalytics />,
-    to: "/Liquidaciones",
+    to: "/liquidaciones",
   },
   {
     label: "Nomina",
     icon: <MdOutlineMoney />,
-    to: "/Nomina",
+    to: "/nomina",
   },
 ];
 const secondarylinksArray = [
   {
     label: "Configuración",
     icon: <AiOutlineSetting />,
-    to: "/null",
-  },
-  {
-    label: "Salir",
-    icon: <MdLogout />,
     to: "/null",
   },
 ];
