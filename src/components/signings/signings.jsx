@@ -6,7 +6,7 @@ import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import ImportarArchivo from "./ImportarArchivo";
 import { API_URL } from "../utils/constants";
 import { dateFormat } from "../utils/format";
-import DateRangePicker from "../common/dateRange";
+import DateRangePicker from "../common/DateRangePicker";
 
 const getMuiTheme = () =>
     createTheme({
