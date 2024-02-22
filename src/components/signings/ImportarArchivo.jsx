@@ -3,12 +3,10 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box, Button, Dialog,  DialogActions, DialogContent, DialogTitle} from "@mui/material";
-import * as React from 'react';
-import axios from 'axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { styled } from '@mui/material/styles';
-import { useState} from "react";
+import { useState } from "react";
 import { IconButton } from "@mui/material";
-import API_URL from '../utils/constants';
 import { AlertSnackbar } from '../common/AlertSnackbar'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -21,13 +19,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function ImportarArchivo() {
-
-  const [openModal, setOpenModal] = React.useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [archivos, setArchivos] = useState(null)
   const [loading, setLoading] = useState(false)
   const [openAlert, setOpenAlert] = useState(false);
   const [messageAlert, setMessageAlert] = useState("")
   const [severityAlert, setSeverityAlert] = useState("")
+  const axiosPrivate = useAxiosPrivate();
 
   const handleClickOpen = () => {
     setOpenModal(true);
@@ -49,9 +47,10 @@ export default function ImportarArchivo() {
     setMessageAlert("Importando fichajes");
     setSeverityAlert("info");
     setOpenAlert(true);
-    axios.post(`${API_URL}/workers/api/v1/import-signings/`, formData)
-    .then(response=>{
-        console.log(response.data);
+    axiosPrivate.post('/workers/api/v1/import-signings/', formData, {
+      headers: { 'Content-Type': 'multipart/form-data', },
+    })
+    .then(response => {
         setLoading(false);
         setMessageAlert("Fichajes importados!");
         setSeverityAlert("success");
