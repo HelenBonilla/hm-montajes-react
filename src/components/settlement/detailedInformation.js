@@ -1,6 +1,6 @@
 import MUIDataTable  from "mui-datatables";
 import { useEffect, useState} from "react";
-import { Accordion, AccordionDetails, Box,Container, Table, TableCell, TableRow, TableBody} from "@mui/material";
+import { Accordion, AccordionDetails, Box,Container, Table, TableCell, TableRow, TableBody, Grid} from "@mui/material";
 import TableHead from '@mui/material/TableHead';
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import * as React from "react";
@@ -11,6 +11,7 @@ import ProcessSettlement from "./ProcessSettlement";
 import { API_URL } from "../utils/constants"
 import { dateFormat } from "../utils/format";
 import { dateFormatSet } from "../utils/dateFormatSettlement";
+import DateRangePicker from "../common/DateRangePicker";
 
 const getMuiTheme = () =>
     createTheme({
@@ -177,17 +178,26 @@ export const DataDetailedSte = () => {
     
     return(
         <ThemeProvider theme={getMuiTheme()}> 
-            <Container  sx={{paddingTop: "15px", minWidth:700}} >             
-                <h3>Fecha inicio: {dateFormatSet(settlement.start_date?? "")}</h3> 
-                <h3>Fecha final: {dateFormatSet(settlement.end_date?? "")}</h3>
-                <Box sx={{paddingTop: "1px", mb:1, display: "flex", gap: "10px"}}>                   
-                    <ProcessSettlement id={settlement.id} fuctionSetter={setSettlement}/> 
-                    {settlement.processed ? 
-                    <ExportSettlement id={settlement.id}/> : 
-                    null
-                    }
-                </Box>
-
+            <Container  sx={{paddingTop: "15px", minWidth:700}} >  
+                <Grid container spacing={2}>
+                    <Grid item xs={12}> 
+                        <h3>Fecha inicio: {dateFormatSet(settlement.start_date?? "")}</h3> 
+                        <h3>Fecha final: {dateFormatSet(settlement.end_date?? "")}</h3>
+                    </Grid>
+                    <Grid item xs={6} md={5}>
+                        <Box sx={{paddingTop: "1px", mb:1, display: "flex", gap: "10px"}}>                   
+                            <ProcessSettlement id={settlement.id} fuctionSetter={setSettlement}/> 
+                            {settlement.processed ? 
+                            <ExportSettlement id={settlement.id}/> : 
+                            null
+                            }
+                        </Box>                       
+                    </Grid>
+                    <Grid item xs={6} md={5}> 
+                         <DateRangePicker/>
+                    </Grid>
+                </Grid>           
+                             
                 <MUIDataTable 
                     title="Información detallada de las liquidaciones"
                     data={settlement.details}

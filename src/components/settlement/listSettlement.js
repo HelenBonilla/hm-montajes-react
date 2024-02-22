@@ -1,6 +1,6 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
-import { Container, Tooltip, IconButton} from "@mui/material";
+import { Container, Tooltip, IconButton, Box} from "@mui/material";
 import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -9,6 +9,7 @@ import axios from 'axios';
 import { handleExport } from "./ExportSettlement";
 import { API_URL } from "../utils/constants";
 import { dateFormat } from "../utils/format";
+import DateRangePicker from "../common/DateRangePicker";
 
 const getMuiTheme = () =>
     createTheme({
@@ -24,9 +25,10 @@ const getMuiTheme = () =>
             secondary: {
                 main: '#9575cd',
             },
-            primary:{
-                main:'#81c784'
+            success:{
+                main:'#81c784',
             }
+
         }
 });
 
@@ -87,7 +89,7 @@ export const DataSettlement = () => {
                         </Tooltip>
                         <Tooltip title="Descargar">
                             <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id)}>
-                                <FileDownloadIcon color="primary" />
+                                <FileDownloadIcon color="success" />
                             </IconButton>
                         </Tooltip>               
                     </div>                  
@@ -133,7 +135,10 @@ export const DataSettlement = () => {
     
     return(
         <ThemeProvider theme={getMuiTheme()}> 
-            <Container maxWidth="xl" sx={{paddingTop: "15px"}} >                                    
+            <Container maxWidth="xl" sx={{paddingTop: "15px"}} >    
+                <Box sx={{my:2}}>
+                    <DateRangePicker color="primary"/>                            
+                </Box>
                 <MUIDataTable 
                     title="Lista de liquidaciones"
                     data={settlement}

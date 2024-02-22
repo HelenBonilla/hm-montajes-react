@@ -7,7 +7,7 @@ import MinimizeIcon from '@mui/icons-material/Minimize';
 import 'dayjs/locale/es';
 
 export default function DateRangePicker() {
-    const [locale, setLocale] = React.useState('es');
+    const [locale] = React.useState('es');
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
