@@ -9,6 +9,8 @@ import { MdOutlineAnalytics, MdLogout, MdOutlinePersonPin, MdOutlineMoney} from 
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { ThemeContext } from "./layouts/HomeLayout";
+import { LogoutButton } from "./LoginForm/LogoutButton";
+
 export default function Sidebar() {
   const { setTheme, theme } = useContext(ThemeContext);
   const sidebarOpen = true;
@@ -35,19 +37,19 @@ export default function Sidebar() {
         </div>
       ))}
       <Divider />
-      {secondarylinksArray.map(({ icon, label, to }) => (
-        <div className="LinkContainer" key={label}>
-          <NavLink
-            to={to}
-            className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
-          >
-            <div className="Linkicon">{icon}</div>
-            {sidebarOpen && <span>{label}</span>}
-          </NavLink>
-        </div>
-      ))}
+        {secondarylinksArray.map(({ icon, label, to }) => (
+          <div className="LinkContainer" key={label}>
+            <NavLink
+              to={to}
+              className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
+            >
+              <div className="Linkicon">{icon}</div>
+              {sidebarOpen && <span>{label}</span>}
+            </NavLink>
+          </div>
+        ))}
+        <LogoutButton/>
       <Divider />
-     
     </Container>
   );
 }
@@ -78,11 +80,6 @@ const secondarylinksArray = [
   {
     label: "Configuración",
     icon: <AiOutlineSetting />,
-    to: "/null",
-  },
-  {
-    label: "Salir",
-    icon: <MdLogout />,
     to: "/null",
   },
 ];
