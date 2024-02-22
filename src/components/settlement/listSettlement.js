@@ -8,7 +8,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { handleExport } from "./ExportSettlement";
-import API_URL from "../utils/constants";
 import { dateFormat } from "../utils/format";
 
 const getMuiTheme = () =>
@@ -32,13 +31,10 @@ const getMuiTheme = () =>
 });
 
 export const DataSettlement = () => {
-
     const [settlement, setSettlement] = useState( [] )
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
-
-    const endpoint = `${API_URL}/settlement/api/v1/settlements/`
 
     useEffect(() => {
         let isMounted = true;
@@ -46,7 +42,7 @@ export const DataSettlement = () => {
 
         const getSettlements = async () => {
             try {
-                const response = await axiosPrivate.get(endpoint, {
+                const response = await axiosPrivate.get('/settlement/api/v1/settlements/', {
                     signal: controller.signal
                 });
                 isMounted && setSettlement(response.data);
@@ -117,11 +113,11 @@ export const DataSettlement = () => {
     const options = {
         filterType: 'checkbox',
         download:false,
-        responsive:true,
+        responsive: 'standard',
         print:false,
         viewColumns:false,
         filter: false,
-        selectableRows:false,
+        selectableRows: 'none',
         tableBodyHeight:'75vh',
         elevation:10, 
         textLabels: {    
