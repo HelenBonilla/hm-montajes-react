@@ -1,6 +1,6 @@
 import MUIDataTable  from "mui-datatables";
 import { useEffect, useState} from "react";
-import { Accordion, AccordionDetails, Box, /* Button, */Container, Table, TableCell, TableRow, TableBody} from "@mui/material";
+import { Accordion, AccordionDetails, Box,Container, Table, TableCell, TableRow, TableBody} from "@mui/material";
 import TableHead from '@mui/material/TableHead';
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import * as React from "react";
@@ -10,7 +10,7 @@ import axios from "axios";
 import ProcessSettlement from "./ProcessSettlement";
 import { API_URL } from "../utils/constants"
 import { dateFormat } from "../utils/format";
-
+import { dateFormatSet } from "../utils/dateFormatSettlement";
 
 const getMuiTheme = () =>
     createTheme({
@@ -30,8 +30,7 @@ export const DataDetailedSte = () => {
     const { id } = useParams();
     const endpoint = `${API_URL}/settlement/api/v1/settlements/${id}/`
     const [expand] = React.useState([]);
-
-
+    console.log(settlement)
     const getData = async () => {
         await axios.get(endpoint).then((response) => {
             const data = response.data
@@ -39,10 +38,9 @@ export const DataDetailedSte = () => {
         })
     }
 
-
     useEffect( ()=>{
         getData();
-        console.log(id)
+        
     }, [])
 
     const columns = [
@@ -54,7 +52,6 @@ export const DataDetailedSte = () => {
               );
             },
         }},
-        //{name: "working_shifts.friday"},
         { name: "monday",label: "Lunes"},
         { name: "tuesday",label: "Martés"},
         { name: "wednesday",label: "Miércoles"},
@@ -97,55 +94,55 @@ export const DataDetailedSte = () => {
                 <tr>
                     <td colSpan={colSpan}>
                         <Accordion expanded={expand.includes(rowMeta.rowIndex)}>
-                        <AccordionDetails>
-                            <h4>Horas trabajadas</h4>
-                            <Table sx={{ maxWidth: 600 }} aria-label="purchases">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Día</TableCell>
-                                        <TableCell>Entrada</TableCell>
-                                        <TableCell>Salida</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell>Lunes</TableCell>
-                                        <TableCell>{dateFormat(monday.start)}</TableCell>
-                                        <TableCell>{dateFormat(monday.end)}</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Martes</TableCell>
-                                        <TableCell>{dateFormat(tuesday.start)}</TableCell>
-                                        <TableCell>{dateFormat(tuesday.end)}</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Miércoles</TableCell>
-                                        <TableCell>{dateFormat(wednesday.start)}</TableCell>
-                                        <TableCell>{dateFormat(wednesday.end)}</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Jueves</TableCell>
-                                        <TableCell>{dateFormat(thursday.start)}</TableCell>
-                                        <TableCell>{dateFormat(thursday.end)}</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Viernes</TableCell>
-                                        <TableCell>{dateFormat(friday.start)}</TableCell>
-                                        <TableCell>{dateFormat(friday.end)}</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Sábado</TableCell>
-                                        <TableCell>{dateFormat(saturday.start)}</TableCell>
-                                        <TableCell>{dateFormat(saturday.end)}</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Domingo</TableCell>
-                                        <TableCell>{dateFormat(sunday.start)}</TableCell>
-                                        <TableCell>{dateFormat(sunday.end)}</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </AccordionDetails>
+                            <AccordionDetails>
+                                <h4>Horas trabajadas</h4>
+                                <Table sx={{ maxWidth: 600 }} aria-label="purchases">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Día</TableCell>
+                                            <TableCell>Entrada</TableCell>
+                                            <TableCell>Salida</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell>Lunes</TableCell>
+                                            <TableCell>{dateFormat(monday.start)}</TableCell>
+                                            <TableCell>{dateFormat(monday.end)}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Martes</TableCell>
+                                            <TableCell>{dateFormat(tuesday.start)}</TableCell>
+                                            <TableCell>{dateFormat(tuesday.end)}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Miércoles</TableCell>
+                                            <TableCell>{dateFormat(wednesday.start)}</TableCell>
+                                            <TableCell>{dateFormat(wednesday.end)}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Jueves</TableCell>
+                                            <TableCell>{dateFormat(thursday.start)}</TableCell>
+                                            <TableCell>{dateFormat(thursday.end)}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Viernes</TableCell>
+                                            <TableCell>{dateFormat(friday.start)}</TableCell>
+                                            <TableCell>{dateFormat(friday.end)}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Sábado</TableCell>
+                                            <TableCell>{dateFormat(saturday.start)}</TableCell>
+                                            <TableCell>{dateFormat(saturday.end)}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Domingo</TableCell>
+                                            <TableCell>{dateFormat(sunday.start)}</TableCell>
+                                            <TableCell>{dateFormat(sunday.end)}</TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </AccordionDetails>
                         </Accordion>
                     </td>
                 </tr>
@@ -180,14 +177,17 @@ export const DataDetailedSte = () => {
     
     return(
         <ThemeProvider theme={getMuiTheme()}> 
-            <Container  sx={{paddingTop: "15px", minWidth:700}} >
-                <Box sx={{paddingTop: "1px", mb:1, display: "flex", gap: "10px"}}>
+            <Container  sx={{paddingTop: "15px", minWidth:700}} >             
+                <h3>Fecha inicio: {dateFormatSet(settlement.start_date?? "")}</h3> 
+                <h3>Fecha final: {dateFormatSet(settlement.end_date?? "")}</h3>
+                <Box sx={{paddingTop: "1px", mb:1, display: "flex", gap: "10px"}}>                   
                     <ProcessSettlement id={settlement.id} fuctionSetter={setSettlement}/> 
                     {settlement.processed ? 
                     <ExportSettlement id={settlement.id}/> : 
                     null
                     }
                 </Box>
+
                 <MUIDataTable 
                     title="Información detallada de las liquidaciones"
                     data={settlement.details}

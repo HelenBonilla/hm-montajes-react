@@ -1,11 +1,12 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { Container } from "@mui/material";
+import { Box, Card, Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import ImportarArchivo from "./ImportarArchivo";
 import { API_URL } from "../utils/constants";
 import { dateFormat } from "../utils/format";
+import DateRangePicker from "../common/dateRange";
 
 const getMuiTheme = () =>
     createTheme({
@@ -166,8 +167,10 @@ export const DataSignings = () => {
             <ThemeProvider theme={getMuiTheme()}> 
                 <Container maxWidth="xl" >
                     <div>
-                        <ImportarArchivo/>
-
+                        <Box  sx={{ my: 2 }} >
+                            <ImportarArchivo/>
+                            <DateRangePicker/>
+                        </Box>                     
                         <MUIDataTable 
                             title="Lista de fichajes"
                             data={workers}
