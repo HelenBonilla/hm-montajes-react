@@ -1,7 +1,7 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Container, Tooltip, IconButton} from "@mui/material";
+import { Container, Tooltip, IconButton, Box} from "@mui/material";
 import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -9,6 +9,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { handleExport } from "./ExportSettlement";
 import { dateFormat } from "../utils/format";
+import DateRangePicker from "../common/DateRangePicker";
 
 const getMuiTheme = () =>
     createTheme({
@@ -24,9 +25,10 @@ const getMuiTheme = () =>
             secondary: {
                 main: '#9575cd',
             },
-            primary:{
-                main:'#81c784'
+            success:{
+                main:'#81c784',
             }
+
         }
 });
 
@@ -100,10 +102,10 @@ export const DataSettlement = () => {
                         </Tooltip>
                         <Tooltip title="Descargar">
                             <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id, axiosPrivate)}>
-                                <FileDownloadIcon color="primary" />
+                                <FileDownloadIcon color="success" />
                             </IconButton>
-                        </Tooltip>               
-                    </div>                  
+                        </Tooltip>
+                    </div>
                   );
                 }
             }
@@ -143,18 +145,20 @@ export const DataSettlement = () => {
         
         },
     }
-    
+
     return(
-        <ThemeProvider theme={getMuiTheme()}> 
-            <Container maxWidth="xl" sx={{paddingTop: "15px"}} >                                    
+        <ThemeProvider theme={getMuiTheme()}>
+            <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
+                <Box sx={{my:2}}>
+                    <DateRangePicker color="primary"/>
+                </Box>
                 <MUIDataTable 
                     title="Lista de liquidaciones"
                     data={settlement}
                     columns={columns}
                     options={options}
-                />                    
+                />
             </Container>
         </ThemeProvider>
-        
     )
 }
