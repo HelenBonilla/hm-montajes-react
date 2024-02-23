@@ -1,5 +1,12 @@
-import axios from 'axios'
+import axios from 'axios';
+import API_URL from '../components/utils/constants';
 
-export const getAllWorkers =()=>{
-    return axios.get('/http://127.0.0.1:8000/api/workers/')
-}
+export default axios.create({
+    baseURL: API_URL
+});
+
+export const axiosPrivate = axios.create({
+    baseURL: API_URL,
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true
+});
