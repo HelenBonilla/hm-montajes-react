@@ -8,11 +8,11 @@ import {
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState(localStorage.getItem('auth') ?? {})
+    const [auth, setAuth] = useState(JSON.parse(localStorage.getItem('auth')) ?? {})
 
     useEffect(() => {
         if (Object.keys(auth).length) {
-            localStorage.setItem('auth', auth);
+            localStorage.setItem('auth', JSON.stringify(auth));
         } else {
             localStorage.removeItem('auth');
         }
