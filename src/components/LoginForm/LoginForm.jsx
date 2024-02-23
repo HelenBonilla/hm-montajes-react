@@ -1,33 +1,59 @@
-import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useRef, useState, useEffect } from "react";
+import useAuth from "../../hooks/useAuth";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaUser, FaLock } from "react-icons/fa";
+import axios from "../../api/axios"
 import "./LoginForm.css";
-import api from "../../api/api"
 
 const LoginForm = () => {
-    const { setToken } = useAuth();
+    const { setAuth } = useAuth();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
+    const usernameRef = useRef();
+    const errorRef = useRef();
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        if (name === 'username') {
-            setUsername(value);
-        } else if (name === 'password') {
-            setPassword(value);
+    useEffect(() => {
+        usernameRef.current.focus();
+    }, [])
+
+    useEffect(() => {
+      setErrorMsg('');
+    }, [username, password])
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post('api/token/',
+                {
+                    'username': username,
+                    'password': password,
+                }
+            );
+            const accessToken = response?.data?.access;
+            const refreshToken = response?.data?.refresh;
+            setAuth({ accessToken, refreshToken });
+            setUsername('');
+            setPassword('');
+            navigate(from, {replace: true});
+        } catch (error) {
+            if (!error?.response) {
+                setErrorMsg('No hay respuesta del servidor');
+            } else if (error.response?.status === 400) {
+                setErrorMsg('Falta nombre de usuario o contraseña');
+            } else if (error.response?.status === 401) {
+                setErrorMsg('No autorizado');
+            } else {
+                setErrorMsg('Error de inicio de sesion');
+            }
         }
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        api.post('api/token/', {
-            'username': username,
-            'password': password,
-        })
-        .then(response => {
-            const { access, refresh } = response.data
-            setToken(access)
-        })
     }
 
     return (
@@ -38,13 +64,30 @@ const LoginForm = () => {
                 </div>
 
                 <div className="input-box">
-                    <input type="text" name="username" value={username} onChange={handleInputChange} placeholder='Usuario' required />
+                    <input
+                        type="text"
+                        name="username"
+                        ref={usernameRef}
+                        onChange={(e) => setUsername(e.target.value)}
+                        value={username}
+                        placeholder='Usuario'
+                        required
+                    />
                     <FaUser className="icon"/>
                 </div>
                 <div className="input-box">
-                    <input type="password" name="password" value={password} onChange={handleInputChange} placeholder='Contraseña' required />
+                    <input
+                        type="password"
+                        name="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        placeholder='Contraseña'
+                        required
+                    />
                     <FaLock className="icon" />
                 </div>
+
+                <p ref={errorRef} className={errorMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errorMsg}</p>
 
                 <div className="remember-forgot">
                     <label><input type="checkbox"/>Recuerdame</label>

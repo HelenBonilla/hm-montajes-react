@@ -1,11 +1,12 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
-import axios from 'axios';
-import { Container } from "@mui/material";
+import { useNavigate, useLocation } from "react-router-dom";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { Box, Card, Container } from "@mui/material";
 import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import ImportarArchivo from "./ImportarArchivo";
-import { API_URL } from "../utils/constants";
 import { dateFormat } from "../utils/format";
+import DateRangePicker from "../common/DateRangePicker";
 
 const getMuiTheme = () =>
     createTheme({
@@ -24,33 +25,35 @@ const getMuiTheme = () =>
 export const DataSignings = () => {
 
     const [workers, setWorkers] = useState( [] )
-
     const [totalRecords, setTotalRecords] = useState(0);
-
     const [currentPage, setCurrentPage] = useState(1);
-
-    const endpoint = `${API_URL}/workers/api/v1/signings/?page=${currentPage}`
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
+    const location = useLocation();
     
-    const getData = async () => {
-        await axios.get(endpoint).then((response) => {
+    const getSignings = async () => {
+        try {
+            const response = await axiosPrivate.get(`/workers/api/v1/signings/?page=${currentPage}`);
             const data = response.data.results
             setWorkers((prevData) => [...prevData, ...data]);
-        })
+        } catch (error) {
+            console.error(error);
+            // navigate('/auth/login', { state: { from: location }, replace: true });
+        }
     }
 
     const handlePageChange = (currentPage) => {
         setCurrentPage(currentPage);
-      };
+    };
 
-    useEffect( ()=>{
-        getData()
+    useEffect(() => {
+        getSignings()
     }, [])
-        
 
-    useEffect( ()=>{
-        getData()
+    useEffect(() => {
+        getSignings()
     }, [currentPage])
-        
+
     const columns = [
         {
             name: "id",
@@ -126,18 +129,18 @@ export const DataSignings = () => {
             label: "Número de contrato"
         },
     ]
-        
+
     const options = {
         filterType: 'checkbox',
-        responsive: true,
+        responsive: 'standard',
         filter: false,
-        selectableRows: false,
+        selectableRows: 'none',
         tableBodyHeight: 440,
         rowsPerPage:50,
         rowsPerPageOptions:false,
-        elevation: 10, 
+        elevation: 10,
         onChangePage: handlePageChange,
-        textLabels: {    
+        textLabels: {
             toolbar: {
                 search: "Buscar fichaje",
                 downloadCsv: "Descargar Excel",
@@ -158,29 +161,25 @@ export const DataSignings = () => {
                 delete: "Eliminar fichaje",
                 deleteAria: "Delete Selected Rows",
             },
-        
         },
     }
-    
-        return(
-            <ThemeProvider theme={getMuiTheme()}> 
-                <Container maxWidth="xl" >
-                    <div>
+
+    return(
+        <ThemeProvider theme={getMuiTheme()}>
+            <Container maxWidth="xl" >
+                <div>
+                    <Box sx={{ my: 2 }} >
                         <ImportarArchivo/>
-
-                        <MUIDataTable 
-                            title="Lista de fichajes"
-                            data={workers}
-                            columns={columns}
-                            options={options}
-                        />  
-                    </div>
-                                                             
-                </Container>
-            </ThemeProvider>
-        
-        )
-
-    
-    
+                        <DateRangePicker/>
+                    </Box>
+                    <MUIDataTable
+                        title="Lista de fichajes"
+                        data={workers}
+                        columns={columns}
+                        options={options}
+                    />
+                </div>
+            </Container>
+        </ThemeProvider>
+    )
 }

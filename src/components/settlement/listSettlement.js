@@ -1,14 +1,15 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
-import { Container, Tooltip, IconButton} from "@mui/material";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Container, Tooltip, IconButton, Box} from "@mui/material";
 import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import axios from 'axios';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { handleExport } from "./ExportSettlement";
-import { API_URL } from "../utils/constants";
 import { dateFormat } from "../utils/format";
+import DateRangePicker from "../common/DateRangePicker";
 
 const getMuiTheme = () =>
     createTheme({
@@ -24,29 +25,43 @@ const getMuiTheme = () =>
             secondary: {
                 main: '#9575cd',
             },
-            primary:{
-                main:'#81c784'
+            success:{
+                main:'#81c784',
             }
+
         }
 });
 
 export const DataSettlement = () => {
-
     const [settlement, setSettlement] = useState( [] )
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const endpoint = `${API_URL}/settlement/api/v1/settlements/`
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
 
-    const getData = async () => {
-        await axios.get(endpoint).then((response) => {
-            const data = response.data
-            setSettlement(data)
-        })
-    }
+        const getSettlements = async () => {
+            try {
+                const response = await axiosPrivate.get('/settlement/api/v1/settlements/', {
+                    signal: controller.signal
+                });
+                isMounted && setSettlement(response.data);
+            } catch (error) {
+                console.error(error);
+                // navigate('/auth/login', { state: { from: location }, replace: true });
+            }
+        }
 
-    useEffect( ()=>{
-        getData()
+        getSettlements();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
     }, [])
-        
+
     const columns = [
         {
             name: "start_date",
@@ -82,15 +97,15 @@ export const DataSettlement = () => {
                     <div>
                          <Tooltip title="Ver liquidación">
                             <IconButton aria-label="view">
-                                <Link to={`/Liquidaciones/${settlement[dataIndex].id}`} ><VisibilityIcon color='secondary'/></Link>
+                                <Link to={`/liquidaciones/${settlement[dataIndex].id}`} ><VisibilityIcon color='secondary'/></Link>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Descargar">
-                            <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id)}>
-                                <FileDownloadIcon color="primary" />
+                            <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id, axiosPrivate)}>
+                                <FileDownloadIcon color="success" />
                             </IconButton>
-                        </Tooltip>               
-                    </div>                  
+                        </Tooltip>
+                    </div>
                   );
                 }
             }
@@ -100,11 +115,11 @@ export const DataSettlement = () => {
     const options = {
         filterType: 'checkbox',
         download:false,
-        responsive:true,
+        responsive: 'standard',
         print:false,
         viewColumns:false,
         filter: false,
-        selectableRows:false,
+        selectableRows: 'none',
         tableBodyHeight:'75vh',
         elevation:10, 
         textLabels: {    
@@ -130,18 +145,20 @@ export const DataSettlement = () => {
         
         },
     }
-    
+
     return(
-        <ThemeProvider theme={getMuiTheme()}> 
-            <Container maxWidth="xl" sx={{paddingTop: "15px"}} >                                    
+        <ThemeProvider theme={getMuiTheme()}>
+            <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
+                <Box sx={{my:2}}>
+                    <DateRangePicker color="primary"/>
+                </Box>
                 <MUIDataTable 
                     title="Lista de liquidaciones"
                     data={settlement}
                     columns={columns}
                     options={options}
-                />                    
+                />
             </Container>
         </ThemeProvider>
-        
     )
 }

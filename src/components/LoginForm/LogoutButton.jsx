@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 import { MdLogout } from "react-icons/md";
 
 export const LogoutButton = () => {
-    const { setToken } = useAuth();
+    const { setAuth } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        setToken();
+        setAuth({});
         navigate("/", { replace: true });
     };
 
