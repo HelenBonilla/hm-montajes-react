@@ -120,7 +120,7 @@ export const DataSettlement = () => {
         viewColumns:false,
         filter: false,
         selectableRows: 'none',
-        tableBodyHeight:'75vh',
+        tableBodyHeight:'55vh',
         elevation:10, 
         textLabels: {    
             toolbar: {
