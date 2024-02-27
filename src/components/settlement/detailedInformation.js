@@ -19,6 +19,7 @@ const getMuiTheme = () =>
           styleOverrides:{ 
             root: {
             backgroundColor: 'rgb(129,202,242)',
+            maxWidth:'100vw',
           }}
         }
         
@@ -92,6 +93,7 @@ export const DataDetailedSte = () => {
         tableBodyHeight:'75vh',
         expandableRows: true,
         expandableRowsHeader: false,
+        fixedHeader: true,
         renderExpandableRow: (rowData, rowMeta) => {
             const colSpan = rowData.length + 5;
             const {
@@ -206,7 +208,7 @@ export const DataDetailedSte = () => {
 
     return(
         <ThemeProvider theme={getMuiTheme()}> 
-            <Container  sx={{paddingTop: "15px", minWidth:700}} >
+            <Container sx={{paddingTop: "15px", minWidth:700}} >
                 <Grid container spacing={2}>
                     <Grid item xs={12}> 
                         <h3>Fecha inicio: {dateFormatSet(settlement.start_date?? "")}</h3>

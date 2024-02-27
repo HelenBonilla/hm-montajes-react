@@ -12,10 +12,11 @@ const getMuiTheme = () =>
     createTheme({
       components: {
         MUIDataTableHeadCell: {
-          styleOverrides:{ 
-            root: {
-            backgroundColor: '#81d4fa',
-          }}
+            styleOverrides:{ 
+                root: {
+                    backgroundColor: '#81d4fa',
+                }
+            }
         }
         
       }
@@ -55,10 +56,6 @@ export const DataSignings = () => {
     }, [currentPage])
 
     const columns = [
-        {
-            name: "id",
-            label: "id"
-        },
         {
             name: "folder_number",
             label: "Legajo"
@@ -126,7 +123,7 @@ export const DataSignings = () => {
         },
         {
             name: "contract_number",
-            label: "Número de contrato"
+            label: "# contrato"
         },
     ]
 
@@ -135,10 +132,11 @@ export const DataSignings = () => {
         responsive: 'standard',
         filter: false,
         selectableRows: 'none',
-        tableBodyHeight: 440,
-        rowsPerPage:50,
+        tableBodyHeight: '55vh',
+        rowsPerPage: 50,
         rowsPerPageOptions:false,
         elevation: 10,
+        fixedHeader: true,
         onChangePage: handlePageChange,
         textLabels: {
             toolbar: {
@@ -166,19 +164,17 @@ export const DataSignings = () => {
 
     return(
         <ThemeProvider theme={getMuiTheme()}>
-            <Container maxWidth="xl" >
-                <div>
-                    <Box sx={{ my: 2 }} >
-                        <ImportarArchivo/>
-                        <DateRangePicker/>
-                    </Box>
-                    <MUIDataTable
-                        title="Lista de fichajes"
-                        data={workers}
-                        columns={columns}
-                        options={options}
-                    />
-                </div>
+            <Container maxWidth="lg">
+                <Box sx={{ my: 2 }} >
+                    <ImportarArchivo/>
+                    <DateRangePicker/>
+                </Box>
+                <MUIDataTable
+                    title="Lista de fichajes"
+                    data={workers}
+                    columns={columns}
+                    options={options}
+                />
             </Container>
         </ThemeProvider>
     )

@@ -11,18 +11,26 @@ body {
   font-family: 'Poppins', 'sans-serif';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  background: url(../../assets/slider-home.jpg) no-repeat;
-  background-size: cover;
-  background-position: center; 
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.login-bg {
+    min-height: 100vh;
+    min-width: 100vw;
+    max-width: fit-content;
+    block-size: fit-content;
+    max-block-size: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url(../../assets/slider-home.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 .logo-img {
