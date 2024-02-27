@@ -12,10 +12,12 @@ const getMuiTheme = () =>
     createTheme({
       components: {
         MUIDataTableHeadCell: {
-          styleOverrides:{ 
-            root: {
-            backgroundColor: '#81d4fa',
-          }}
+            styleOverrides:{ 
+                root: {
+                    backgroundColor: '#81d4fa',
+                    maxWidth: '900px',
+                }
+            }
         }
         
       }
@@ -126,19 +128,20 @@ export const DataSignings = () => {
         },
         {
             name: "contract_number",
-            label: "Número de contrato"
+            label: "# contrato"
         },
     ]
 
     const options = {
         filterType: 'checkbox',
-        responsive: 'standard',
+        responsive: 'simple',
         filter: false,
         selectableRows: 'none',
-        tableBodyHeight: 440,
-        rowsPerPage:50,
+        tableBodyHeight: '55vh',
+        rowsPerPage: 50,
         rowsPerPageOptions:false,
         elevation: 10,
+        fixedHeader: true,
         onChangePage: handlePageChange,
         textLabels: {
             toolbar: {
@@ -166,7 +169,7 @@ export const DataSignings = () => {
 
     return(
         <ThemeProvider theme={getMuiTheme()}>
-            <Container maxWidth="xl" >
+            <Container fixed>
                 <div>
                     <Box sx={{ my: 2 }} >
                         <ImportarArchivo/>
