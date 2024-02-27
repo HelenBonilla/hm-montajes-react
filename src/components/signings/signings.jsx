@@ -165,18 +165,16 @@ export const DataSignings = () => {
     return(
         <ThemeProvider theme={getMuiTheme()}>
             <Container maxWidth="lg">
-                <div>
-                    <Box sx={{ my: 2 }} >
-                        <ImportarArchivo/>
-                        <DateRangePicker/>
-                    </Box>
-                    <MUIDataTable
-                        title="Lista de fichajes"
-                        data={workers}
-                        columns={columns}
-                        options={options}
-                    />
-                </div>
+                <Box sx={{ my: 2 }} >
+                    <ImportarArchivo/>
+                    <DateRangePicker/>
+                </Box>
+                <MUIDataTable
+                    title="Lista de fichajes"
+                    data={workers}
+                    columns={columns}
+                    options={options}
+                />
             </Container>
         </ThemeProvider>
     )
