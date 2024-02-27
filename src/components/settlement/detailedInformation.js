@@ -109,12 +109,14 @@ export const DataDetailedSte = () => {
                         <Accordion expanded={expand.includes(rowMeta.rowIndex)}>
                             <AccordionDetails>
                                 <h4>Horas trabajadas</h4>
-                                <Table sx={{ maxWidth: 600 }} aria-label="purchases">
+                                <Table sx={{ maxWidth: 900 }} aria-label="purchases">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Día</TableCell>
                                             <TableCell>Entrada</TableCell>
                                             <TableCell>Salida</TableCell>
+                                            <TableCell>Entrada Normalizada</TableCell>
+                                            <TableCell>Salida Normalizada</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -122,36 +124,50 @@ export const DataDetailedSte = () => {
                                             <TableCell>Lunes</TableCell>
                                             <TableCell>{dateFormat(monday.start)}</TableCell>
                                             <TableCell>{dateFormat(monday.end)}</TableCell>
+                                            <TableCell>{dateFormat(monday.start_normalized)}</TableCell>
+                                            <TableCell>{dateFormat(monday.end_normalized)}</TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>Martes</TableCell>
                                             <TableCell>{dateFormat(tuesday.start)}</TableCell>
                                             <TableCell>{dateFormat(tuesday.end)}</TableCell>
+                                            <TableCell>{dateFormat(tuesday.start_normalized)}</TableCell>
+                                            <TableCell>{dateFormat(tuesday.end_normalized)}</TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>Miércoles</TableCell>
                                             <TableCell>{dateFormat(wednesday.start)}</TableCell>
                                             <TableCell>{dateFormat(wednesday.end)}</TableCell>
+                                            <TableCell>{dateFormat(wednesday.start_normalized)}</TableCell>
+                                            <TableCell>{dateFormat(wednesday.end_normalized)}</TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>Jueves</TableCell>
                                             <TableCell>{dateFormat(thursday.start)}</TableCell>
                                             <TableCell>{dateFormat(thursday.end)}</TableCell>
+                                            <TableCell>{dateFormat(thursday.start_normalized)}</TableCell>
+                                            <TableCell>{dateFormat(thursday.end_normalized)}</TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>Viernes</TableCell>
                                             <TableCell>{dateFormat(friday.start)}</TableCell>
                                             <TableCell>{dateFormat(friday.end)}</TableCell>
+                                            <TableCell>{dateFormat(friday.start_normalized)}</TableCell>
+                                            <TableCell>{dateFormat(friday.end_normalized)}</TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>Sábado</TableCell>
                                             <TableCell>{dateFormat(saturday.start)}</TableCell>
                                             <TableCell>{dateFormat(saturday.end)}</TableCell>
+                                            <TableCell>{dateFormat(saturday.start_normalized)}</TableCell>
+                                            <TableCell>{dateFormat(saturday.end_normalized)}</TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>Domingo</TableCell>
                                             <TableCell>{dateFormat(sunday.start)}</TableCell>
                                             <TableCell>{dateFormat(sunday.end)}</TableCell>
+                                            <TableCell>{dateFormat(sunday.start_normalized)}</TableCell>
+                                            <TableCell>{dateFormat(sunday.end_normalized)}</TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
