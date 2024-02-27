@@ -14,7 +14,7 @@ export const HomeLayout = ({children}) => {
   return (
     <ThemeContext.Provider value={{ setTheme, theme }}>
       <ThemeProvider theme={themeStyle}>
-        <Container className={sidebarOpen ? "sidebarState active" : ""}>
+        <Container className={sidebarOpen ? "sidebarState active" : ""}> 
           <Sidebar
             sidebarOpen={sidebarOpen}
             setSidebarOpen={setSidebarOpen}
@@ -31,7 +31,7 @@ const Container = styled.div`
   grid-template-columns: 90px auto;
   background: ${({ theme }) => theme.bgtotal};
   transition:all 0.3s ;
-  &.active {
+  &.active { 
     grid-template-columns: 300px auto;
   }
   color:${({theme})=>theme.text};

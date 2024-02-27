@@ -88,7 +88,7 @@ const LoginForm = () => {
                 </div>
 
                 <p ref={errorRef} className={errorMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errorMsg}</p>
-
+                <br></br>
                 <div className="remember-forgot">
                     <label><input type="checkbox"/>Recuerdame</label>
                     <a href="#">Olvidaste la contraseña?</a>

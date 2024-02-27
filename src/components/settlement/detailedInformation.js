@@ -19,6 +19,7 @@ const getMuiTheme = () =>
           styleOverrides:{ 
             root: {
             backgroundColor: 'rgb(129,202,242)',
+            maxWidth:'100vw',
           }}
         }
         
