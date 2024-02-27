@@ -3,6 +3,7 @@ import Sidebar from "../Sidebar";
 import styled from "styled-components";
 import { ThemeProvider } from "styled-components";
 import { Light, Dark } from "../../styles/Themes";
+import CssBaseline from '@mui/material/CssBaseline';
 
 export const ThemeContext = createContext(null);
 
@@ -14,6 +15,7 @@ export const HomeLayout = ({children}) => {
   return (
     <ThemeContext.Provider value={{ setTheme, theme }}>
       <ThemeProvider theme={themeStyle}>
+        <CssBaseline />
         <Container className={sidebarOpen ? "sidebarState active" : ""}> 
           <Sidebar
             sidebarOpen={sidebarOpen}
@@ -28,6 +30,7 @@ export const HomeLayout = ({children}) => {
 
 const Container = styled.div`
   display: grid;
+  max-width: 100%;
   grid-template-columns: 90px auto;
   background: ${({ theme }) => theme.bgtotal};
   transition:all 0.3s ;

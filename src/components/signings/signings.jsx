@@ -15,7 +15,6 @@ const getMuiTheme = () =>
             styleOverrides:{ 
                 root: {
                     backgroundColor: '#81d4fa',
-                    maxWidth: '900px',
                 }
             }
         }
@@ -57,10 +56,6 @@ export const DataSignings = () => {
     }, [currentPage])
 
     const columns = [
-        {
-            name: "id",
-            label: "id"
-        },
         {
             name: "folder_number",
             label: "Legajo"
@@ -134,7 +129,7 @@ export const DataSignings = () => {
 
     const options = {
         filterType: 'checkbox',
-        responsive: 'simple',
+        responsive: 'standard',
         filter: false,
         selectableRows: 'none',
         tableBodyHeight: '55vh',
@@ -169,7 +164,7 @@ export const DataSignings = () => {
 
     return(
         <ThemeProvider theme={getMuiTheme()}>
-            <Container fixed>
+            <Container maxWidth="lg">
                 <div>
                     <Box sx={{ my: 2 }} >
                         <ImportarArchivo/>
