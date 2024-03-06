@@ -26,6 +26,7 @@ export default function ProcessSettlement({id, fuctionSetter}) {
             setSeverityAlert("success");
             setOpenAlert(true);
             fuctionSetter(response.data);
+            console.log(response.data);
         }).catch(error => {
             console.log(error);
             setLoading(false);

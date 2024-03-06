@@ -38,6 +38,17 @@ export const DataSettlement = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const updateSettlementElement = (settlement) => {
+        setSettlement((prev) => {
+            for (let index = 0; index < prev.length; index++) {
+                if (prev[index].id === settlement.id) {
+                    prev[index] = {...settlement}
+                }
+            }
+            return prev;
+        })
+    }
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
