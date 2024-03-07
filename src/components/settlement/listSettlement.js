@@ -6,10 +6,13 @@ import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import CircularProgress from '@mui/material/CircularProgress';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { handleExport } from "./ExportSettlement";
+import ExportSettlement, { handleExport } from "./ExportSettlement";
 import { dateFormat } from "../utils/format";
 import DateRangePicker from "../common/DateRangePicker";
+import ProccessIconTable from "./ProccessIconTable";
 
 const getMuiTheme = () =>
     createTheme({
@@ -106,14 +109,19 @@ export const DataSettlement = () => {
                 customBodyRenderLite: (dataIndex) => {
                   return (
                     <div>
-                         <Tooltip title="Ver liquidación">
+                        <Tooltip title="Ver liquidación">
                             <IconButton aria-label="view">
-                                <Link to={`/liquidaciones/${settlement[dataIndex].id}`} ><VisibilityIcon color='secondary'/></Link>
+                                <Link to={`/liquidaciones/${settlement[dataIndex].id}`}><VisibilityIcon color='secondary'/></Link>
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Procesar liquidación">
+                            <IconButton aria-label="view">
+                                <ProccessIconTable id={settlement[dataIndex].id} fuctionSetter={updateSettlementElement}/>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Descargar">
                             <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id, axiosPrivate)}>
-                                <FileDownloadIcon color="success" />
+                                <div><FileDownloadIcon color="success" /></div>
                             </IconButton>
                         </Tooltip>
                     </div>
@@ -128,6 +136,7 @@ export const DataSettlement = () => {
         download:false,
         responsive: 'standard',
         print:false,
+        search:false,
         viewColumns:false,
         filter: false,
         selectableRows: 'none',
