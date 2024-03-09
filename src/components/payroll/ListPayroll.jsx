@@ -60,7 +60,7 @@ export const ListPayroll = () => {
             isMounted = false;
             controller.abort();
         }
-    })
+    }, [])
 
     const columns = [
         {
