@@ -152,7 +152,6 @@ const Container = styled.div`
       .Linkicon {
         padding: ${v.smSpacing} ${v.mdSpacing};
         display: flex;
-
         svg {
           font-size: 25px;
         }
