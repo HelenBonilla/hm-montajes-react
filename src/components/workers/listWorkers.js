@@ -66,10 +66,6 @@ export const DataWorker = () => {
 
     const columns = [
         {
-            name: "id",
-            label: "id"
-        },
-        {
             name: "name",
             label: "Nombre completo"
         },

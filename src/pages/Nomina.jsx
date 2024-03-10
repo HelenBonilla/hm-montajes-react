@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import { ListPayroll } from "../components/payroll/ListPayroll";
 export function Nomina() {
   return (
   <Container>
-    <h1>Nomina</h1>
+    <ListPayroll/>
   </Container>);
 }
 const Container =styled.div`
