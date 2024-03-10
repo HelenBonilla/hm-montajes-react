@@ -25,7 +25,7 @@ const getMuiTheme = () =>
 
 export const DataSignings = () => {
 
-    const [workers, setWorkers] = useState( [] )
+    const [signings, setSignings] = useState( [] )
     const [totalRecords, setTotalRecords] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const axiosPrivate = useAxiosPrivate();
@@ -36,7 +36,7 @@ export const DataSignings = () => {
         try {
             const response = await axiosPrivate.get(`/workers/api/v1/signings/?page=${currentPage}`);
             const data = response.data.results
-            setWorkers((prevData) => [...prevData, ...data]);
+            setSignings((prevData) => [...prevData, ...data]);
         } catch (error) {
             console.error(error);
             // navigate('/auth/login', { state: { from: location }, replace: true });
@@ -61,26 +61,12 @@ export const DataSignings = () => {
             label: "Legajo"
         },
         {
-            name: "worker_info",
+            name: "worker_info.name",
             label: "Trabajador",
-            options: {
-                customBodyRender: (value) => {
-                    return (
-                      <span>{value.name}</span>
-                    );
-                },
-            }
         },
         {
-            name: "worker_info",
+            name: "worker_info.document",
             label: "Documento",
-            options: {
-                customBodyRender: (value) => {
-                    return (
-                        <span>{value.document}</span>
-                    );
-                }
-            }
         },
         {
             name: "date_signed",
@@ -137,6 +123,7 @@ export const DataSignings = () => {
         rowsPerPageOptions:false,
         elevation: 10,
         fixedHeader: true,
+        enableNestedDataAccess: ".",
         onChangePage: handlePageChange,
         textLabels: {
             toolbar: {
@@ -164,14 +151,14 @@ export const DataSignings = () => {
 
     return(
         <ThemeProvider theme={getMuiTheme()}>
-            <Container maxWidth="lg">
+            <Container maxWidth="xl">
                 <Box sx={{ my: 2 }} >
-                    <ImportarArchivo/>
+                    <ImportarArchivo setSignings={setSignings}/>
                     <DateRangePicker/>
                 </Box>
                 <MUIDataTable
                     title="Lista de fichajes"
-                    data={workers}
+                    data={signings}
                     columns={columns}
                     options={options}
                 />

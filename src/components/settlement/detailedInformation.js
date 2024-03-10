@@ -10,7 +10,6 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ProcessSettlement from "./ProcessSettlement";
 import { dateFormat } from "../utils/format";
 import { dateFormatSet } from "../utils/dateFormatSettlement";
-import DateRangePicker from "../common/DateRangePicker";
 
 const getMuiTheme = () =>
     createTheme({
@@ -59,29 +58,24 @@ export const DataDetailedSte = () => {
     }, [])
 
     const columns = [
-        { name: "worker_info",label: "Trabajador", options: {
-            customBodyRender: (value) => {
-              return (
-                <span>{value.name}</span>
-              );
-            },
-        }},
-        { name: "monday",label: "Lunes"},
-        { name: "tuesday",label: "Martés"},
-        { name: "wednesday",label: "Miércoles"},
-        { name: "thursday",label: "Jueves"},
-        { name: "friday",label: "Viernes"},
-        { name: "saturday",label: "Sábado"},
-        { name: "sunday",label: "Domingo"},
-        { name: "total_hours",label: "Total Horas"},
-        { name: "ordinary_hours",label: "H.O"},
-        { name: "daytime_overtime",label: "H.E.D"},
-        { name: "night_surcharge_hours",label: "H.R.N"},
-        { name: "night_overtime",label: "H.E.N"},
-        { name: "holiday_hours",label:"H.F" },
-        { name: "night_holiday_hours",label: "H.F.N"},
-        { name: "daytime_holiday_overtime",label: "H.F.D"},
-        { name: "night_holiday_overtime",label: "H.E.F.N"},
+        { name: "worker_info.name", label: "Trabajador"},
+        { name: "worker_info.document", label: "Documento"},
+        { name: "monday", label: "Lunes"},
+        { name: "tuesday", label: "Martés"},
+        { name: "wednesday", label: "Miércoles"},
+        { name: "thursday", label: "Jueves"},
+        { name: "friday", label: "Viernes"},
+        { name: "saturday", label: "Sábado"},
+        { name: "sunday", label: "Domingo"},
+        { name: "total_hours", label: "Total Horas"},
+        { name: "ordinary_hours", label: "H.O"},
+        { name: "daytime_overtime", label: "H.E.D"},
+        { name: "night_surcharge_hours", label: "H.R.N"},
+        { name: "night_overtime", label: "H.E.N"},
+        { name: "holiday_hours", label:"H.F" },
+        { name: "night_holiday_hours", label: "H.F.N"},
+        { name: "daytime_holiday_overtime", label: "H.F.D"},
+        { name: "night_holiday_overtime", label: "H.E.F.N"},
     ]
         
     const options = {
@@ -94,6 +88,7 @@ export const DataDetailedSte = () => {
         expandableRows: true,
         expandableRowsHeader: false,
         fixedHeader: true,
+        enableNestedDataAccess: ".",
         renderExpandableRow: (rowData, rowMeta) => {
             const colSpan = rowData.length + 5;
             const {
@@ -222,9 +217,6 @@ export const DataDetailedSte = () => {
                             null
                             }
                         </Box>
-                    </Grid>
-                    <Grid item xs={6} md={5}> 
-                         <DateRangePicker/>
                     </Grid>
                 </Grid>
 
