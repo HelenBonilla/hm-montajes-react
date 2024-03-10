@@ -61,26 +61,12 @@ export const DataSignings = () => {
             label: "Legajo"
         },
         {
-            name: "worker_info",
+            name: "worker_info.name",
             label: "Trabajador",
-            options: {
-                customBodyRender: (value) => {
-                    return (
-                      <span>{value.name}</span>
-                    );
-                },
-            }
         },
         {
-            name: "worker_info",
+            name: "worker_info.document",
             label: "Documento",
-            options: {
-                customBodyRender: (value) => {
-                    return (
-                        <span>{value.document}</span>
-                    );
-                }
-            }
         },
         {
             name: "date_signed",
@@ -137,6 +123,7 @@ export const DataSignings = () => {
         rowsPerPageOptions:false,
         elevation: 10,
         fixedHeader: true,
+        enableNestedDataAccess: ".",
         onChangePage: handlePageChange,
         textLabels: {
             toolbar: {
@@ -164,7 +151,7 @@ export const DataSignings = () => {
 
     return(
         <ThemeProvider theme={getMuiTheme()}>
-            <Container maxWidth="lg">
+            <Container maxWidth="xl">
                 <Box sx={{ my: 2 }} >
                     <ImportarArchivo setSignings={setSignings}/>
                     <DateRangePicker/>
