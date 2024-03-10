@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 import { Box } from '@mui/system'
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { AlertSnackbar } from '../common/AlertSnackbar'
@@ -6,7 +6,7 @@ import { useState } from 'react';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CircularProgress from '@mui/material/CircularProgress';
 
-export default function ProcessSettlement({id, fuctionSetter}) {
+export default function ProcessIconTable({id, fuctionSetter}) {
     const [loading, setLoading] = useState(false)
     const [openAlert, setOpenAlert] = useState(false);
     const [messageAlert, setMessageAlert] = useState("")
@@ -43,13 +43,13 @@ export default function ProcessSettlement({id, fuctionSetter}) {
 
     return (
         <Box sx={{paddingTop: "1px", mb:1}}>
-            <Button
+            <IconButton
             variant="contained"
             onClick={handleProcess}
-            startIcon={loading ? <CircularProgress color="inherit" size={20}/> : <AccessTimeIcon/>}
+            color="primary"
             >
-                Procesar Liquidación
-            </Button>
+                {loading ? <CircularProgress color="inherit" size={20}/> : <AccessTimeIcon/>}
+            </IconButton>
             <AlertSnackbar
                 open={openAlert}
                 onClose={handleClose}
@@ -59,5 +59,3 @@ export default function ProcessSettlement({id, fuctionSetter}) {
         </Box>
     )
 }
-
-

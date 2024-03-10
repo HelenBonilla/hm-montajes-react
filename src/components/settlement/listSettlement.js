@@ -1,15 +1,19 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Container, Tooltip, IconButton, Box} from "@mui/material";
+import { Container, Tooltip, IconButton, Box, Grid, Button} from "@mui/material";
 import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { handleExport } from "./ExportSettlement";
+import ExportSettlement, { handleExport } from "./ExportSettlement";
 import { dateFormat } from "../utils/format";
 import DateRangePicker from "../common/DateRangePicker";
+import ProccessIconTable from "./ProccessIconTable";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import * as React from 'react';
+import CreatePayroll from "./CreatePayroll";
 
 const getMuiTheme = () =>
     createTheme({
@@ -34,9 +38,30 @@ const getMuiTheme = () =>
 
 export const DataSettlement = () => {
     const [settlement, setSettlement] = useState( [] )
+    const [settlementSelected, setSettlementSelected] = useState( [] )
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    const updateSettlementElement = (settlement) => {
+        setSettlement((prev) => {
+            for (let index = 0; index < prev.length; index++) {
+                if (prev[index].id === settlement.id) {
+                    prev[index] = {...settlement}
+                }
+            }
+            return [...prev];
+        })
+
+    }
 
     useEffect(() => {
         let isMounted = true;
@@ -95,31 +120,55 @@ export const DataSettlement = () => {
                 customBodyRenderLite: (dataIndex) => {
                   return (
                     <div>
-                         <Tooltip title="Ver liquidación">
+                        <Tooltip title="Ver liquidación">
                             <IconButton aria-label="view">
-                                <Link to={`/liquidaciones/${settlement[dataIndex].id}`} ><VisibilityIcon color='secondary'/></Link>
+                                <Link to={`/liquidaciones/${settlement[dataIndex].id}`}><VisibilityIcon color='secondary'/></Link>
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title="Descargar">
-                            <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id, axiosPrivate)}>
-                                <FileDownloadIcon color="success" />
+                        <Tooltip title="Procesar liquidación">
+                            <IconButton aria-label="view">
+                                <ProccessIconTable id={settlement[dataIndex].id} fuctionSetter={updateSettlementElement}/>
                             </IconButton>
                         </Tooltip>
+                        {settlement[dataIndex].processed ? 
+                            <Tooltip title="Descargar liquidación">
+                                <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id, axiosPrivate)}>
+                                    <div><FileDownloadIcon color="success" /></div>
+                                </IconButton>
+                            </Tooltip>: 
+                            null                          
+                        }
+                        
                     </div>
                   );
+
                 }
             }
         }
     ]
+
         
     const options = {
         filterType: 'checkbox',
         download:false,
         responsive: 'standard',
         print:false,
+        search:false,
         viewColumns:false,
         filter: false,
-        selectableRows: 'none',
+        selectableRows:true,
+        selectableRowsHeader:false,
+        onRowSelectionChange:function (currentRowsSelected, allRowsSelected, rowsSelected) {
+            let ids = []
+            let dataIndex 
+            for (let index = 0; index < allRowsSelected.length; index++) {
+                dataIndex = allRowsSelected[index].dataIndex;
+                ids.push({settlement_id:settlement[dataIndex].id})
+            }
+            setSettlementSelected(ids)
+
+            console.log(allRowsSelected);
+        },
         tableBodyHeight:'55vh',
         elevation:10, 
         textLabels: {    
@@ -150,6 +199,18 @@ export const DataSettlement = () => {
         <ThemeProvider theme={getMuiTheme()}>
             <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
                 <Box sx={{my:2}}>
+                    {/*<Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                        <Grid item xs={4}>
+                            <Button variant="contained" sx={{ position: 'relative',  top: '6px', height:'60px'}}startIcon={<AddCircleIcon />}>
+                                Crear Nomina
+                            </Button>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <DateRangePicker color="primary"/>
+                        </Grid>
+                    
+                    </Grid>*/}
+                    <CreatePayroll settlementSelected={settlementSelected}/>
                     <DateRangePicker color="primary"/>
                 </Box>
                 <MUIDataTable 
