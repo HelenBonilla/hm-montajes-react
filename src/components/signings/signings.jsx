@@ -25,7 +25,7 @@ const getMuiTheme = () =>
 
 export const DataSignings = () => {
 
-    const [workers, setWorkers] = useState( [] )
+    const [signings, setSignings] = useState( [] )
     const [totalRecords, setTotalRecords] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const axiosPrivate = useAxiosPrivate();
@@ -36,7 +36,7 @@ export const DataSignings = () => {
         try {
             const response = await axiosPrivate.get(`/workers/api/v1/signings/?page=${currentPage}`);
             const data = response.data.results
-            setWorkers((prevData) => [...prevData, ...data]);
+            setSignings((prevData) => [...prevData, ...data]);
         } catch (error) {
             console.error(error);
             // navigate('/auth/login', { state: { from: location }, replace: true });
@@ -166,12 +166,12 @@ export const DataSignings = () => {
         <ThemeProvider theme={getMuiTheme()}>
             <Container maxWidth="lg">
                 <Box sx={{ my: 2 }} >
-                    <ImportarArchivo/>
+                    <ImportarArchivo setSignings={setSignings}/>
                     <DateRangePicker/>
                 </Box>
                 <MUIDataTable
                     title="Lista de fichajes"
-                    data={workers}
+                    data={signings}
                     columns={columns}
                     options={options}
                 />

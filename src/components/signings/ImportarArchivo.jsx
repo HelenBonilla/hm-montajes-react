@@ -18,7 +18,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ImportarArchivo() {
+export default function ImportarArchivo({setSignings}) {
   const [openModal, setOpenModal] = useState(false);
   const [archivos, setArchivos] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -55,6 +55,8 @@ export default function ImportarArchivo() {
         setMessageAlert("Fichajes importados!");
         setSeverityAlert("success");
         setOpenAlert(false);
+        const data = response.data.results
+        setSignings((prevData) => [...prevData, ...data]);
     }).catch(error=>{
         console.log(error);
         setLoading(false);
