@@ -27,33 +27,46 @@ export const DataSignings = () => {
 
     const [signings, setSignings] = useState( [] )
     const [totalRecords, setTotalRecords] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [count, setCount] = useState(0);
+    const [searchText, setSearchText] = useState('');
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
     
-    const getSignings = async () => {
-        try {
-            const response = await axiosPrivate.get(`/workers/api/v1/signings/?page=${currentPage}`);
-            const data = response.data.results
-            setSignings((prevData) => [...prevData, ...data]);
-        } catch (error) {
-            console.error(error);
-            // navigate('/auth/login', { state: { from: location }, replace: true });
-        }
-    }
+    /* useEffect(() => {
+        getSignings()
+    }, []) */
 
-    const handlePageChange = (currentPage) => {
-        setCurrentPage(currentPage);
+    useEffect(() => {
+        const getSignings = async () => {
+            try {
+                const searchParam = searchText ? searchText : ' ';
+                const response = await axiosPrivate.get(`/workers/api/v1/signings/?page=${page + 1}&page_size=${rowsPerPage}&search=${searchParam}`);
+                setSignings(response.data.results);
+                setCount(response.data.count);
+            } catch (error) {
+                console.error(error);
+                // navigate('/auth/login', { state: { from: location }, replace: true });
+            }
+        }
+
+        getSignings()
+    }, [page, rowsPerPage, searchText])
+
+    const handlePageChange = (page) => {
+        setPage(page);
     };
 
-    useEffect(() => {
-        getSignings()
-    }, [])
+    const handleRowsPerPageChange = (newRowsPerPage) => {
+        setRowsPerPage(parseInt(newRowsPerPage, 10));
+        setPage(0); // Reset page to 0 when rows per page changes
+    };
 
-    useEffect(() => {
-        getSignings()
-    }, [currentPage])
+    const handleSearchChange = (searchQuery) => {
+        setSearchText(searchQuery);
+    };
 
     const columns = [
         {
@@ -114,17 +127,22 @@ export const DataSignings = () => {
     ]
 
     const options = {
+        serverSide: true,
+        page: page,
+        count: count,
         filterType: 'checkbox',
         responsive: 'standard',
         filter: false,
         selectableRows: 'none',
         tableBodyHeight: '55vh',
-        rowsPerPage: 50,
-        rowsPerPageOptions:false,
+        rowsPerPage: rowsPerPage,
+        rowsPerPageOptions: [10, 25, 50, 100],
+        onChangePage: handlePageChange,
+        onChangeRowsPerPage: handleRowsPerPageChange,
+        onSearchChange: handleSearchChange,
         elevation: 10,
         fixedHeader: true,
         enableNestedDataAccess: ".",
-        onChangePage: handlePageChange,
         textLabels: {
             toolbar: {
                 search: "Buscar fichaje",
@@ -149,7 +167,7 @@ export const DataSignings = () => {
         },
     }
 
-    return(
+    return (
         <ThemeProvider theme={getMuiTheme()}>
             <Container maxWidth="xl">
                 <Box sx={{ my: 2 }} >
