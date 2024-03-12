@@ -156,7 +156,7 @@ export const DataSettlement = () => {
         selectableRows: 'multiple',
         selectableRowsHeader: false,
         isRowSelectable: function (dataIndex, selectedRows) {
-            return true
+            return !settlement[dataIndex].has_payroll
         },
         onRowSelectionChange:function (currentRowsSelected, allRowsSelected, rowsSelected) {
             let ids = []
