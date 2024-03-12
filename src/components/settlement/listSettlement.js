@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import ExportSettlement, { handleExport } from "./ExportSettlement";
+import ExportSettlement from "./ExportSettlement";
+import { handleExportExcel } from "../utils/handleExportExcel";
 import { dateFormat } from "../utils/format";
 import DateRangePicker from "../common/DateRangePicker";
 import ProccessIconTable from "./ProccessIconTable";
@@ -72,7 +73,6 @@ export const DataSettlement = () => {
                 const response = await axiosPrivate.get('/settlement/api/v1/settlements/', {
                     signal: controller.signal
                 });
-                console.log(response.data)
                 isMounted && setSettlement(response.data);
             } catch (error) {
                 console.error(error);
@@ -131,7 +131,7 @@ export const DataSettlement = () => {
                         </Tooltip>
                         {settlement[dataIndex].processed ? 
                             <Tooltip title="Descargar liquidación">
-                                <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id, axiosPrivate)}>
+                                <IconButton aria-label="download" onClick={() => handleExportExcel('/settlement/api/v1/export/', settlement[dataIndex].id, axiosPrivate)}>
                                     <FileDownloadIcon color="success" />
                                 </IconButton>
                             </Tooltip>: 
@@ -156,7 +156,6 @@ export const DataSettlement = () => {
         selectableRows: 'multiple',
         selectableRowsHeader: false,
         isRowSelectable: function (dataIndex, selectedRows) {
-            console.log(dataIndex, selectedRows)
             return true
         },
         onRowSelectionChange:function (currentRowsSelected, allRowsSelected, rowsSelected) {
