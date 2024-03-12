@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components";
 import { Light, Dark } from "../../styles/Themes";
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
+import { AlertProvider } from "../../context/AlertProvider";
 
 export const ThemeContext = createContext(null);
 
@@ -16,20 +17,22 @@ export const HomeLayout = ({children}) => {
   return (
     <ThemeContext.Provider value={{ setTheme, theme }}>
       <ThemeProvider theme={themeStyle}>
-        <CssBaseline />
-        <Container className={sidebarOpen ? "sidebarState active" : ""}>
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <Sidebar
-                sidebarOpen={sidebarOpen}
-                setSidebarOpen={setSidebarOpen}
-              />
+        <AlertProvider>
+          <CssBaseline />
+          <Container className={sidebarOpen ? "sidebarState active" : ""}>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <Sidebar
+                  sidebarOpen={sidebarOpen}
+                  setSidebarOpen={setSidebarOpen}
+                />
+              </Grid>
+              <Grid item xs={9}>
+                {children}
+              </Grid>
             </Grid>
-            <Grid item xs={9}>
-              {children}
-            </Grid>
-          </Grid>
-        </Container>
+          </Container>
+        </AlertProvider>
       </ThemeProvider>
     </ThemeContext.Provider>
   );
