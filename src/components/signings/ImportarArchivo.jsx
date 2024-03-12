@@ -7,7 +7,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { styled } from '@mui/material/styles';
 import { useState } from "react";
 import { IconButton } from "@mui/material";
-import { AlertSnackbar } from '../common/AlertSnackbar'
+import { useAlert } from '../../hooks/useAlert';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -22,10 +22,8 @@ export default function ImportarArchivo({setSignings}) {
   const [openModal, setOpenModal] = useState(false);
   const [archivos, setArchivos] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [openAlert, setOpenAlert] = useState(false);
-  const [messageAlert, setMessageAlert] = useState("")
-  const [severityAlert, setSeverityAlert] = useState("")
   const axiosPrivate = useAxiosPrivate();
+  const { showAlert } = useAlert();
 
   const handleClickOpen = () => {
     setOpenModal(true);
@@ -44,19 +42,14 @@ export default function ImportarArchivo({setSignings}) {
     formData.append("excel_file", archivos[0]);
 
     setLoading(true);
-    setMessageAlert("Importando fichajes");
-    setSeverityAlert("info");
-    setOpenAlert(true);
+    showAlert("info", "Importando fichajes");
     axiosPrivate.post('/workers/api/v1/import-signings/', formData, {
       headers: { 'Content-Type': 'multipart/form-data', },
     })
     .then(response => {
         setLoading(false);
-        setMessageAlert("Fichajes importados!");
-        setSeverityAlert("success");
-        setOpenAlert(false);
-        const data = response.data.results
-        setSignings((prevData) => [...prevData, ...data]);
+        showAlert("success", "Fichajes importados!");
+        setSignings(response.data.results);
     }).catch(error=>{
         console.log(error);
         setLoading(false);
@@ -64,14 +57,6 @@ export default function ImportarArchivo({setSignings}) {
 
     handleClose()
   }
-
-  const handleCloseAlert = (event, reason) => {
-    if (reason === 'clickaway') {
-        return;
-    }
-
-    setOpenAlert(false);
-  };
 
   return (
     <>
@@ -83,13 +68,6 @@ export default function ImportarArchivo({setSignings}) {
           Importar Fichajes
         </Button>
       </Box>
-
-      <AlertSnackbar
-        open={openAlert}
-        onClose={handleCloseAlert}
-        severity={severityAlert}
-        message={messageAlert}
-      />
 
       <BootstrapDialog
         onClose={handleClose}

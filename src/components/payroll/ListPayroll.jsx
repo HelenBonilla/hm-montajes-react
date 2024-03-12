@@ -8,8 +8,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { handleExportExcel } from "../utils/handleExportExcel";
-import { dateFormat } from "../utils/format";
 import DateRangePicker from "../common/DateRangePicker";
+import { dateFormatSet } from "../utils/dateFormatSettlement";
+import { format } from "date-fns";
 
 const getMuiTheme = () =>
     createTheme({
@@ -68,7 +69,9 @@ export const ListPayroll = () => {
             label: "Fecha Nómina",
             options: {
                 customBodyRender: (value) => {
-                    const fechaFormateada = dateFormat(value)
+                    const date = new Date(value)
+                    const dateOnly = new Date(date.valueOf() + date.getTimezoneOffset() * 60 * 1000);
+                    const fechaFormateada = format(dateOnly, 'dd/MMM/yyyy')
                     return (
                         <span>{fechaFormateada}</span>
                     );
