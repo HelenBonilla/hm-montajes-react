@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate, useLocation } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
@@ -11,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import DatePayroll from '../common/DatePayroll';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { useAlert } from '../../hooks/useAlert';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -25,18 +27,23 @@ export default function CreatePayroll({settlementSelected}) {
     const [open, setOpen] = React.useState(false);
     const [fechaNomina, setFechaNomina] = React.useState("");
     const axiosPrivate = useAxiosPrivate();
+    const { showAlert } = useAlert();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleClose = () => {
         setOpen(false);
     };
     const handleCreate =() =>{
+        showAlert("info", "Creando nómina, espere un momento")
         axiosPrivate.post('/payroll/api/v1/create/', {
             settlements:settlementSelected,
             payroll_date:fechaNomina
         }).then(response => {
-            console.log("se creo");
+            showAlert("success", "Nómina creada con éxito!")
+            navigate('/nomina', { state: { from: location }, replace: true });
         }).catch(error => {
-            console.log(error);
+            showAlert("success", `Error al crear la nómina: ${error}`)
         })
         handleClose()
     }
