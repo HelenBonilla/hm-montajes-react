@@ -72,6 +72,7 @@ export const DataSettlement = () => {
                 const response = await axiosPrivate.get('/settlement/api/v1/settlements/', {
                     signal: controller.signal
                 });
+                console.log(response.data)
                 isMounted && setSettlement(response.data);
             } catch (error) {
                 console.error(error);
@@ -118,30 +119,26 @@ export const DataSettlement = () => {
             label:"Acciones",
             options: {
                 customBodyRenderLite: (dataIndex) => {
-                  return (
+                    return (
                     <div>
                         <Tooltip title="Ver liquidación">
-                            <IconButton aria-label="view">
-                                <Link to={`/liquidaciones/${settlement[dataIndex].id}`}><VisibilityIcon color='secondary'/></Link>
+                            <IconButton aria-label="view" component={Link} to={`/liquidaciones/${settlement[dataIndex].id}`}>
+                                <VisibilityIcon color='secondary'/>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Procesar liquidación">
-                            <IconButton aria-label="view">
-                                <ProccessIconTable id={settlement[dataIndex].id} fuctionSetter={updateSettlementElement}/>
-                            </IconButton>
+                            <ProccessIconTable id={settlement[dataIndex].id} fuctionSetter={updateSettlementElement}/>
                         </Tooltip>
                         {settlement[dataIndex].processed ? 
                             <Tooltip title="Descargar liquidación">
                                 <IconButton aria-label="download" onClick={() => handleExport(settlement[dataIndex].id, axiosPrivate)}>
-                                    <div><FileDownloadIcon color="success" /></div>
+                                    <FileDownloadIcon color="success" />
                                 </IconButton>
                             </Tooltip>: 
-                            null                          
+                            null
                         }
-                        
                     </div>
-                  );
-
+                    );
                 }
             }
         }
@@ -150,14 +147,18 @@ export const DataSettlement = () => {
         
     const options = {
         filterType: 'checkbox',
-        download:false,
+        download: false,
         responsive: 'standard',
-        print:false,
-        search:false,
-        viewColumns:false,
+        print: false,
+        search: false,
+        viewColumns: false,
         filter: false,
-        selectableRows:true,
-        selectableRowsHeader:false,
+        selectableRows: 'multiple',
+        selectableRowsHeader: false,
+        isRowSelectable: function (dataIndex, selectedRows) {
+            console.log(dataIndex, selectedRows)
+            return true
+        },
         onRowSelectionChange:function (currentRowsSelected, allRowsSelected, rowsSelected) {
             let ids = []
             let dataIndex 
@@ -199,17 +200,6 @@ export const DataSettlement = () => {
         <ThemeProvider theme={getMuiTheme()}>
             <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
                 <Box sx={{my:2}}>
-                    {/*<Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                        <Grid item xs={4}>
-                            <Button variant="contained" sx={{ position: 'relative',  top: '6px', height:'60px'}}startIcon={<AddCircleIcon />}>
-                                Crear Nomina
-                            </Button>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <DateRangePicker color="primary"/>
-                        </Grid>
-                    
-                    </Grid>*/}
                     <CreatePayroll settlementSelected={settlementSelected}/>
                     <DateRangePicker color="primary"/>
                 </Box>
