@@ -22,9 +22,17 @@ const getMuiTheme = () =>
             MUIDataTableHeadCell: {
                 styleOverrides:{ 
                     root: {
-                    backgroundColor: 'rgb(129,202,242)',
-                }}
+                        backgroundColor: 'rgb(129,202,242)',
+                    }
+                }
             },
+            MuiTableCell: {
+                styleOverrides:{ 
+                    head: {
+                        backgroundColor: 'rgb(129,202,242)',
+                    }
+                }
+            }
         },
         palette: {
             secondary: {

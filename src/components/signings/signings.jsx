@@ -26,7 +26,6 @@ const getMuiTheme = () =>
 export const DataSignings = () => {
 
     const [signings, setSignings] = useState( [] )
-    const [totalRecords, setTotalRecords] = useState(0);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [count, setCount] = useState(0);
@@ -35,14 +34,11 @@ export const DataSignings = () => {
     const navigate = useNavigate();
     const location = useLocation();
     
-    /* useEffect(() => {
-        getSignings()
-    }, []) */
-
     useEffect(() => {
         const getSignings = async () => {
             try {
-                const searchParam = searchText ? searchText : ' ';
+                // Fix when searchText becomes null
+                const searchParam = searchText ? searchText : '';
                 const response = await axiosPrivate.get(`/workers/api/v1/signings/?page=${page + 1}&page_size=${rowsPerPage}&search=${searchParam}`);
                 setSignings(response.data.results);
                 setCount(response.data.count);
