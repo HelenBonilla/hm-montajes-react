@@ -36,6 +36,10 @@ const getMuiTheme = () =>
 
 export const DataWorker = () => {
     const [workers, setWorkers] = useState( [] )
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [count, setCount] = useState(0);
+    const [searchText, setSearchText] = useState('');
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
@@ -46,10 +50,12 @@ export const DataWorker = () => {
 
         const getWorkers = async () => {
             try {
-                const response = await axiosPrivate.get('/workers/api/v1/workers/', {
+                const searchParam = searchText ? searchText : '';
+                const response = await axiosPrivate.get(`/workers/api/v1/workers/?page=${page + 1}&page_size=${rowsPerPage}&search=${searchParam}`, {
                     signal: controller.signal
                 });
-                isMounted && setWorkers(response.data);
+                isMounted && setWorkers(response.data.results);
+                isMounted && setCount(response.data.count);
             } catch (error) {
                 console.error(error);
                 // navigate('/auth/login', { state: { from: location }, replace: true });
@@ -62,7 +68,20 @@ export const DataWorker = () => {
             isMounted = false;
             controller.abort();
         }
-    }, [])
+    }, [page, rowsPerPage, searchText, axiosPrivate])
+
+    const handlePageChange = (page) => {
+        setPage(page);
+    };
+
+    const handleRowsPerPageChange = (newRowsPerPage) => {
+        setRowsPerPage(parseInt(newRowsPerPage, 10));
+        setPage(0); // Reset page to 0 when rows per page changes
+    };
+
+    const handleSearchChange = (searchQuery) => {
+        setSearchText(searchQuery);
+    };
 
     const columns = [
         {
@@ -78,34 +97,40 @@ export const DataWorker = () => {
             label:"Acciones",
             options: {
                 customBodyRenderLite: (dataIndex) => {
-                  return (
-                    <div>
-                         <Tooltip title="Ver trabajador">
-                            <IconButton aria-label="visibility">
-                                <Link to={`/trabajadores/${workers[dataIndex].id}`} >
+                    return (
+                        <div>
+                            <Tooltip title="Ver trabajador">
+                                <IconButton aria-label="visibility" component={Link} to={`/trabajadores/${workers[dataIndex].id}`}>
                                     <VisibilityIcon color='primary'/>
-                                </Link>
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Eliminar trabajador">
-                            <IconButton aria-label="delete">
-                                <DeleteIcon color="secondary"/>
-                            </IconButton>
-                        </Tooltip>               
-                    </div>                  
-                  );
+                                </IconButton>
+                            </Tooltip>
+                            {/* <Tooltip title="Eliminar trabajador">
+                                <IconButton aria-label="delete">
+                                    <DeleteIcon color="secondary"/>
+                                </IconButton>
+                            </Tooltip> */}
+                        </div>
+                    );
                 }
             }
         }
     ]
 
     const options = {
+        serverSide: true,
+        page: page,
+        count: count,
+        rowsPerPage: rowsPerPage,
+        rowsPerPageOptions: [10, 25, 50, 100],
+        onChangePage: handlePageChange,
+        onChangeRowsPerPage: handleRowsPerPageChange,
+        onSearchChange: handleSearchChange,
         filterType: 'checkbox',
         responsive: 'standard',
         filter: false,
         selectableRows: 'none',
-        tableBodyHeight:'75vh',
-        elevation:10,
+        tableBodyHeight: '75vh',
+        elevation: 10,
         textLabels: {
             toolbar: {
                 search: "Buscar Trabajador",
@@ -133,12 +158,12 @@ export const DataWorker = () => {
     return(
         <ThemeProvider theme={getMuiTheme()}>
             <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
-                    <MUIDataTable
-                        title="Lista de trabajadores"
-                        data={workers}
-                        columns={columns}
-                        options={options}
-                    />
+                <MUIDataTable
+                    title="Lista de trabajadores"
+                    data={workers}
+                    columns={columns}
+                    options={options}
+                />
             </Container>
         </ThemeProvider>
     )

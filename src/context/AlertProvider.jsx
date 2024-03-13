@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
@@ -17,17 +17,17 @@ export const AlertProvider = ({ children }) => {
 
     return (
         <AlertContext.Provider value={{ showAlert, hideAlert }}>
-        {children}
-        <Snackbar open={alertData.open} autoHideDuration={6000} onClose={hideAlert}>
-            <Alert
-                onClose={hideAlert}
-                severity={alertData.severity}
-                variant="filled"
-                sx={{ width: '100%' }}
-            >
-                {alertData.message}
-            </Alert>
-        </Snackbar>
+            {children}
+            <Snackbar open={alertData.open} autoHideDuration={6000} onClose={hideAlert}>
+                <Alert
+                    onClose={hideAlert}
+                    severity={alertData.severity}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {alertData.message}
+                </Alert>
+            </Snackbar>
         </AlertContext.Provider>
     );
 }
