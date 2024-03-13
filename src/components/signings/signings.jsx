@@ -35,6 +35,9 @@ export const DataSignings = () => {
     const location = useLocation();
     
     useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+
         const getSignings = async () => {
             try {
                 // Fix when searchText becomes null
@@ -42,8 +45,8 @@ export const DataSignings = () => {
                 const startDate = dateRange?.startDate ?? ''
                 const endDate = dateRange?.endDate ?? ''
                 const response = await axiosPrivate.get(`/workers/api/v1/signings/?page=${page + 1}&page_size=${rowsPerPage}&search=${searchParam}&start_date=${startDate}&end_date=${endDate}`);
-                setSignings(response.data.results);
-                setCount(response.data.count);
+                isMounted && setSignings(response.data.results);
+                isMounted && setCount(response.data.count);
             } catch (error) {
                 console.error(error);
                 // navigate('/auth/login', { state: { from: location }, replace: true });
@@ -51,7 +54,12 @@ export const DataSignings = () => {
         }
 
         getSignings()
-    }, [page, rowsPerPage, searchText, dateRange])
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
+    }, [page, rowsPerPage, searchText, dateRange, axiosPrivate])
 
     const handlePageChange = (page) => {
         setPage(page);
@@ -128,16 +136,16 @@ export const DataSignings = () => {
         serverSide: true,
         page: page,
         count: count,
-        filterType: 'checkbox',
-        responsive: 'standard',
-        filter: false,
-        selectableRows: 'none',
-        tableBodyHeight: '55vh',
         rowsPerPage: rowsPerPage,
         rowsPerPageOptions: [10, 25, 50, 100],
         onChangePage: handlePageChange,
         onChangeRowsPerPage: handleRowsPerPageChange,
         onSearchChange: handleSearchChange,
+        filterType: 'checkbox',
+        responsive: 'standard',
+        filter: false,
+        selectableRows: 'none',
+        tableBodyHeight: '55vh',
         elevation: 10,
         fixedHeader: true,
         enableNestedDataAccess: ".",
