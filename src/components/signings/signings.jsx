@@ -7,6 +7,7 @@ import { createTheme , ThemeProvider  }  from  '@mui/material/styles';
 import ImportarArchivo from "./ImportarArchivo";
 import { dateFormat } from "../utils/format";
 import DateRangePicker from "../common/DateRangePicker";
+import { objectShallowCompare } from "@mui/x-data-grid/hooks/utils/useGridSelector";
 
 const getMuiTheme = () =>
     createTheme({
@@ -22,30 +23,30 @@ const getMuiTheme = () =>
       }
 });
 
-
 export const DataSignings = () => {
-
     const [signings, setSignings] = useState( [] )
-    const [totalRecords, setTotalRecords] = useState(0);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [count, setCount] = useState(0);
     const [searchText, setSearchText] = useState('');
+    const [dateRange, setDateRange] = useState({});
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
     
-    /* useEffect(() => {
-        getSignings()
-    }, []) */
-
     useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+
         const getSignings = async () => {
             try {
-                const searchParam = searchText ? searchText : ' ';
-                const response = await axiosPrivate.get(`/workers/api/v1/signings/?page=${page + 1}&page_size=${rowsPerPage}&search=${searchParam}`);
-                setSignings(response.data.results);
-                setCount(response.data.count);
+                // Fix when searchText becomes null
+                const searchParam = searchText ? searchText : '';
+                const startDate = dateRange?.startDate ?? ''
+                const endDate = dateRange?.endDate ?? ''
+                const response = await axiosPrivate.get(`/workers/api/v1/signings/?page=${page + 1}&page_size=${rowsPerPage}&search=${searchParam}&start_date=${startDate}&end_date=${endDate}`);
+                isMounted && setSignings(response.data.results);
+                isMounted && setCount(response.data.count);
             } catch (error) {
                 console.error(error);
                 // navigate('/auth/login', { state: { from: location }, replace: true });
@@ -53,7 +54,12 @@ export const DataSignings = () => {
         }
 
         getSignings()
-    }, [page, rowsPerPage, searchText])
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
+    }, [page, rowsPerPage, searchText, dateRange, axiosPrivate])
 
     const handlePageChange = (page) => {
         setPage(page);
@@ -130,16 +136,16 @@ export const DataSignings = () => {
         serverSide: true,
         page: page,
         count: count,
-        filterType: 'checkbox',
-        responsive: 'standard',
-        filter: false,
-        selectableRows: 'none',
-        tableBodyHeight: '55vh',
         rowsPerPage: rowsPerPage,
         rowsPerPageOptions: [10, 25, 50, 100],
         onChangePage: handlePageChange,
         onChangeRowsPerPage: handleRowsPerPageChange,
         onSearchChange: handleSearchChange,
+        filterType: 'checkbox',
+        responsive: 'standard',
+        filter: false,
+        selectableRows: 'none',
+        tableBodyHeight: '55vh',
         elevation: 10,
         fixedHeader: true,
         enableNestedDataAccess: ".",
@@ -172,7 +178,7 @@ export const DataSignings = () => {
             <Container maxWidth="xl">
                 <Box sx={{ my: 2 }} >
                     <ImportarArchivo setSignings={setSignings}/>
-                    <DateRangePicker/>
+                    <DateRangePicker onChange={(range) => setDateRange(range)}/>
                 </Box>
                 <MUIDataTable
                     title="Lista de fichajes"

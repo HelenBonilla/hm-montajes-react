@@ -35,6 +35,7 @@ const getMuiTheme = () =>
 
 export const ListPayroll = () => {
     const [payrolls, setPayrolls] = useState([]);
+    const [dateRange, setDateRange] = useState({});
     const axiosPrivate = useAxiosPrivate()
     const navigate = useNavigate();
     const location = useLocation();
@@ -136,7 +137,7 @@ export const ListPayroll = () => {
         <ThemeProvider theme={getMuiTheme()}>
             <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
                 <Box sx={{my:2}}>
-                    <DateRangePicker color="primary"/>
+                    <DateRangePicker color="primary" onChange={(range) => setDateRange(range)}/>
                 </Box>
                 <MUIDataTable 
                     title="Lista de nóminas"

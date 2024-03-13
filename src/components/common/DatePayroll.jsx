@@ -11,8 +11,8 @@ export default function DatePayroll({setFechaNomina, fechaNomina}) {
     const [locale] = React.useState('es');
 
     function setDate (date) {
-        date = format(new Date(date), 'yyyy-MM-dd', {locale: es})   
-        setFechaNomina(date) 
+        date = format(new Date(date), 'yyyy-MM-dd', {locale: es})
+        setFechaNomina(date)
     }
 
     return (

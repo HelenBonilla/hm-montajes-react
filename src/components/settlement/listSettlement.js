@@ -22,9 +22,17 @@ const getMuiTheme = () =>
             MUIDataTableHeadCell: {
                 styleOverrides:{ 
                     root: {
-                    backgroundColor: 'rgb(129,202,242)',
-                }}
+                        backgroundColor: 'rgb(129,202,242)',
+                    }
+                }
             },
+            MuiTableCell: {
+                styleOverrides:{ 
+                    head: {
+                        backgroundColor: 'rgb(129,202,242)',
+                    }
+                }
+            }
         },
         palette: {
             secondary: {
@@ -40,17 +48,10 @@ const getMuiTheme = () =>
 export const DataSettlement = () => {
     const [settlement, setSettlement] = useState( [] )
     const [settlementSelected, setSettlementSelected] = useState( [] )
+    const [dateRange, setDateRange] = useState({});
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-    const handleClose = () => {
-      setOpen(false);
-    };
 
     const updateSettlementElement = (settlement) => {
         setSettlement((prev) => {
@@ -61,7 +62,6 @@ export const DataSettlement = () => {
             }
             return [...prev];
         })
-
     }
 
     useEffect(() => {
@@ -144,7 +144,6 @@ export const DataSettlement = () => {
         }
     ]
 
-        
     const options = {
         filterType: 'checkbox',
         download: false,
@@ -166,8 +165,6 @@ export const DataSettlement = () => {
                 ids.push({settlement_id:settlement[dataIndex].id})
             }
             setSettlementSelected(ids)
-
-            console.log(allRowsSelected);
         },
         tableBodyHeight:'55vh',
         elevation:10, 
@@ -200,7 +197,7 @@ export const DataSettlement = () => {
             <Container maxWidth="xl" sx={{paddingTop: "15px"}} >
                 <Box sx={{my:2}}>
                     <CreatePayroll settlementSelected={settlementSelected}/>
-                    <DateRangePicker color="primary"/>
+                    <DateRangePicker color="primary" onChange={(range) => setDateRange(range)}/>
                 </Box>
                 <MUIDataTable 
                     title="Lista de liquidaciones"
