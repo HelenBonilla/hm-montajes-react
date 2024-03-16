@@ -1,7 +1,7 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Container, Tooltip, Box} from "@mui/material";
+import { Container, Tooltip, Box } from "@mui/material";
 import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -10,6 +10,7 @@ import DateRangePicker from "../common/DateRangePicker";
 import { dateFormatSet } from "../utils/dateFormatSettlement";
 import { format } from "date-fns";
 import ExportIconTable from "./ExportIconTable";
+import { DeleteButtonTable } from "./DeleteButtonTable";
 
 const getMuiTheme = () =>
     createTheme({
@@ -87,6 +88,9 @@ export const ListPayroll = () => {
                         <div>
                             <Tooltip title="Descargar">
                                 <ExportIconTable id={payrolls[dataIndex].id}/>
+                            </Tooltip>
+                            <Tooltip title="Eliminar">
+                                <DeleteButtonTable id={payrolls[dataIndex].id} setPayrolls={setPayrolls}/>
                             </Tooltip>
                         </div>
                     );
