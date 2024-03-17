@@ -1,4 +1,7 @@
-export const handleExportExcel = (url, id, axiosClient) => {
+export const handleExportExcel = (url, id, axiosClient, setLoading) => {
+    if (setLoading !== undefined) {
+        setLoading(true);
+    }
     axiosClient.post(url, {
         id:id,
     },
@@ -19,5 +22,8 @@ export const handleExportExcel = (url, id, axiosClient) => {
         link.setAttribute('download', filename); // File name
         document.body.appendChild(link);
         link.click();
+        if (setLoading !== undefined) {
+            setLoading(false);
+        }
     })
 }

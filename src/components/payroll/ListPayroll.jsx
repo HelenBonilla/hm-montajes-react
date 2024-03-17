@@ -1,16 +1,16 @@
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Container, Tooltip, IconButton, Box} from "@mui/material";
+import { Container, Tooltip, Box } from "@mui/material";
 import { createTheme , ThemeProvider  } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { handleExportExcel } from "../utils/handleExportExcel";
 import DateRangePicker from "../common/DateRangePicker";
 import { dateFormatSet } from "../utils/dateFormatSettlement";
 import { format } from "date-fns";
+import ExportIconTable from "./ExportIconTable";
+import { DeleteButtonTable } from "./DeleteButtonTable";
 
 const getMuiTheme = () =>
     createTheme({
@@ -87,11 +87,10 @@ export const ListPayroll = () => {
                     return (
                         <div>
                             <Tooltip title="Descargar">
-                                <IconButton
-                                    aria-label="download"
-                                    onClick={() => handleExportExcel('/payroll/api/v1/export/', payrolls[dataIndex].id, axiosPrivate)}>
-                                    <FileDownloadIcon color="success" />
-                                </IconButton>
+                                <ExportIconTable id={payrolls[dataIndex].id}/>
+                            </Tooltip>
+                            <Tooltip title="Eliminar">
+                                <DeleteButtonTable id={payrolls[dataIndex].id} setPayrolls={setPayrolls}/>
                             </Tooltip>
                         </div>
                     );
