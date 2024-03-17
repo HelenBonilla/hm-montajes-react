@@ -84,7 +84,7 @@ export const DataDetailedSte = () => {
         responsive: 'standard',
         filter: false,
         selectableRows: 'none',
-        tableBodyHeight:'75vh',
+        tableBodyHeight:'65vh',
         expandableRows: true,
         expandableRowsHeader: false,
         fixedHeader: true,
