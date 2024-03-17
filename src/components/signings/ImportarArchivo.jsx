@@ -42,7 +42,7 @@ export default function ImportarArchivo({setSignings}) {
     formData.append("excel_file", archivos[0]);
 
     setLoading(true);
-    showAlert("info", "Importando fichajes");
+    showAlert("info", "Importando fichajes, espere un momento");
     axiosPrivate.post('/workers/api/v1/import-signings/', formData, {
       headers: { 'Content-Type': 'multipart/form-data', },
     })
@@ -52,6 +52,7 @@ export default function ImportarArchivo({setSignings}) {
         setSignings(response.data.results);
     }).catch(error=>{
         console.log(error);
+        showAlert("info", `Error importando fichajes: ${error}`);
         setLoading(false);
     })
 
