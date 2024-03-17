@@ -8,6 +8,7 @@ import ImportarArchivo from "./ImportarArchivo";
 import { dateFormat } from "../utils/format";
 import DateRangePicker from "../common/DateRangePicker";
 import { objectShallowCompare } from "@mui/x-data-grid/hooks/utils/useGridSelector";
+import { DeleteSignings } from "./DeleteSignings";
 
 const getMuiTheme = () =>
     createTheme({
@@ -178,6 +179,7 @@ export const DataSignings = () => {
             <Container maxWidth="xl">
                 <Box sx={{ my: 2 }} >
                     <ImportarArchivo setSignings={setSignings}/>
+                    <DeleteSignings setSignings={setSignings}/>
                     <DateRangePicker onChange={(range) => setDateRange(range)}/>
                 </Box>
                 <MUIDataTable
