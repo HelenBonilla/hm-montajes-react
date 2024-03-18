@@ -4,11 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 
 function App() {
     return (
-        <AuthProvider>
-            <BrowserRouter>
+        <BrowserRouter>
+            <AuthProvider>
                 <AppRouter/>
-            </BrowserRouter>
-        </AuthProvider>
+            </AuthProvider>
+        </BrowserRouter>
     );
 }
 
