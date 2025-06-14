@@ -42,13 +42,13 @@ export default function ImportarArchivo({setSignings}) {
     formData.append("excel_file", archivos[0]);
 
     setLoading(true);
-    showAlert("info", "Importando fichajes, espere un momento");
+    showAlert("info", "Cargando archivo, espere un momento");
     axiosPrivate.post('/workers/api/v1/import-signings/', formData, {
       headers: { 'Content-Type': 'multipart/form-data', },
     })
     .then(response => {
         setLoading(false);
-        showAlert("success", "Fichajes importados!");
+        showAlert("success", "Se están importanto los fichajes, por favor espere unos minutos y vuelva a recargar para revisar que este lista la información");
         setSignings(response.data.results);
     }).catch(error=>{
         console.log(error);
